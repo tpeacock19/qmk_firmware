@@ -17,9 +17,10 @@ BOOTLOADER = atmel-dfu
 BOOTMAGIC_ENABLE = yes	# Virtual DIP switch configuration
 MOUSEKEY_ENABLE = yes	# Mouse keys
 EXTRAKEY_ENABLE = yes	# Audio control and System control
-CONSOLE_ENABLE = yes	# Console for debug
+CONSOLE_ENABLE = no	# Console for debug
 COMMAND_ENABLE = yes    # Commands for debug and configuration
-NKRO_ENABLE = yes		# USB Nkey Rollover - not yet supported in LUFA
+# NKRO_ENABLE = yes		# USB Nkey Rollover - not yet supported in LUFA
+# TAP_DANCE_ENABLE = yes
 
 # Optimize size but this may cause error "relocation truncated to fit"
 #EXTRALDFLAGS = -Wl,--relax
@@ -31,3 +32,4 @@ SRC +=	matrix.c \
 
 # Holding down keys will result in shifted character
 # AUTO_SHIFT_ENABLE = yes
+WPM_ENABLE = yes
