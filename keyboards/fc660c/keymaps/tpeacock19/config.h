@@ -47,5 +47,36 @@ KC_ASTG 	Toggles the state of the Auto Shift feature 					 */
 /*****************************************************************************/
 /*                             Oneshot Settings                              */
 /*****************************************************************************/
-#define ONESHOT_TAP_TOGGLE 2  /* Tapping this number of times holds the key until tapped once again. */
-#define ONESHOT_TIMEOUT 5000  /* Time (in ms) before the one shot key is released */
+
+#define ONESHOT_TAP_TOGGLE 2 /* Tapping this number of times holds the key until tapped once again. */
+#define ONESHOT_TIMEOUT 5000 /* Time (in ms) before the one shot key is released */
+#define TAPPING_TERM_PER_KEY
+/* #define PERMISSIVE_HOLD */
+
+/*****************************************************************************/
+/*                             Oneshot Settings                              */
+/*****************************************************************************/
+#define DOLLAR KC_DOLLAR
+#define LSQUIGLY KC_LBRACKET
+#define RSQUIGLY KC_RBRACKET
+#define NUMLOCK KC_NUMLOCK
+#define CAPLOCK KC_CAPSLOCK
+#define BK_SLASH KC_BSLASH
+#define ASTERSK KC_KP_ASTERISK
+
+/*****************************************************************************/
+/*                             Oneshot Settings                              */
+/*****************************************************************************/
+#define CTRL_ESC CTL_T(KC_ESC)
+#define CTRL_F CTL_T(KC_F)
+#define CTRL_J CTL_T(KC_J)
+#define CTRL_Z CTL_T(KC_Z)
+#define ALT_V ALT_T(KC_V)
+#define ALT_M ALT_T(KC_M)
+#define WIN_G GUI_T(KC_G)
+#define WIN_H GUI_T(KC_H)
+#define HYPER_X ALL_T(KC_X)
+#define HYPE_DOT ALL_T(KC_DOT)
+#define MEH_S MEH_T(KC_S)
+#define MEH_L MEH_T(KC_L)
+#define ALT_HOME ALT_T(KC_HOME)
