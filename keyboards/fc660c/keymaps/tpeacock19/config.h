@@ -24,13 +24,13 @@
 
 /*****************************************************************************/
 /*					Temporary Rebind for setting timeout
-Key Name 	Description
-KC_ASDN 	Lower the Auto Shift timeout variable (down)
-KC_ASUP 	Raise the Auto Shift timeout variable (up)
-KC_ASRP 	Report your current Auto Shift timeout value
-KC_ASON 	Turns on the Auto Shift Function
-KC_ASOFF 	Turns off the Auto Shift Function
-KC_ASTG 	Toggles the state of the Auto Shift feature 					 */
+                    Key Name 	Description
+                    KC_ASDN 	Lower the Auto Shift timeout variable (down)
+                    KC_ASUP 	Raise the Auto Shift timeout variable (up)
+                    KC_ASRP 	Report your current Auto Shift timeout value
+                    KC_ASON 	Turns on the Auto Shift Function
+                    KC_ASOFF 	Turns off the Auto Shift Function
+                    KC_ASTG 	Toggles the state of the Auto Shift feature 					 */
 /*****************************************************************************/
 
 /* #define AUTO_SHIFT_TIMEOUT 165 */
