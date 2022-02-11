@@ -43,19 +43,33 @@
 
 /* Do not Auto Shift alpha characters, [a-Z] */
 /* #define NO_AUTO_SHIFT_ALPHA */
+/***********************************************************************/
+/*                            space saving                            */
+/***********************************************************************/
+#define NO_MUSIC_MODE
 
-/*****************************************************************************/
-/*                             Oneshot Settings                              */
-/*****************************************************************************/
+/***********************************************************************/
+/*                         Actuation Settings                         */
+/***********************************************************************/
+// higher value means deeper actuation point, less sensitive
+// be careful and only make small adjustments (steps of 1 or 2).
+// too high and keys will fail to actuate. too low and keys will actuate spontaneously.
+// test all keys before further adjustment.
+// this should probably stay in the range +/-5.
+#define ACTUATION_DEPTH_ADJUSTMENT -1
+
+/***********************************************************************/
+/*                          Oneshot Settings                          */
+/***********************************************************************/
 
 #define ONESHOT_TAP_TOGGLE 2 /* Tapping this number of times holds the key until tapped once again. */
 #define ONESHOT_TIMEOUT 5000 /* Time (in ms) before the one shot key is released */
 #define TAPPING_TERM_PER_KEY
 /* #define PERMISSIVE_HOLD */
 
-/*****************************************************************************/
-/*                             Oneshot Settings                              */
-/*****************************************************************************/
+/***********************************************************************/
+/*                              Aliases                               */
+/***********************************************************************/
 #define DOLLAR KC_DOLLAR
 #define LSQUIGLY KC_LBRACKET
 #define RSQUIGLY KC_RBRACKET
@@ -64,9 +78,7 @@
 #define BK_SLASH KC_BSLASH
 #define ASTERSK KC_KP_ASTERISK
 
-/*****************************************************************************/
-/*                             Oneshot Settings                              */
-/*****************************************************************************/
+/*  One Shot Modifiers */
 #define CTRL_ESC CTL_T(KC_ESC)
 #define CTRL_F CTL_T(KC_F)
 #define CTRL_J CTL_T(KC_J)

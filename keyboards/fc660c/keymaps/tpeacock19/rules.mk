@@ -30,6 +30,10 @@ SRC +=	matrix.c \
 		actuation_point.c \
 		i2c.c
 
+# WPM_ENABLE = yes
 # Holding down keys will result in shifted character
-# AUTO_SHIFT_ENABLE = yes
-WPM_ENABLE = yes
+AUTO_SHIFT_ENABLE = yes
+
+# Space saving
+LTO_ENABLE = yes
+MUSIC_ENABLE = no
