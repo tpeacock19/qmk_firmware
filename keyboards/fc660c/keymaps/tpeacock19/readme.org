@@ -1,0 +1,720 @@
+# After making changes to code or tables call org-babel-tangle (C-c C-v t).
+
+#+PROPERTY: header-args:python  :eval nil
+
+* Miryoku QMK [[https://raw.githubusercontent.com/manna-harbour/miryoku/master/data/logos/miryoku-roa-32.png]]
+
+[[https://raw.githubusercontent.com/manna-harbour/miryoku/master/data/cover/miryoku-kle-cover.png]]
+
+[[https://github.com/manna-harbour/miryoku/][Miryoku]] is an ergonomic, minimal, orthogonal, and universal keyboard layout.  This is the Miryoku implementation for [[https://qmk.fm][QMK]].
+
+** Branches
+
+
+*** QMK master
+
+Miryoku QMK is periodically merged upstream into QMK master and it is generally recommended to build directly from QMK master.
+
+QMK master is at https://github.com/qmk/qmk_firmware/tree/master, and the corresponding Miryoku QMK readme is at https://github.com/qmk/qmk_firmware/tree/master/users/manna-harbour_miryoku.
+
+
+*** Miryoku QMK development branch
+
+The Miryoku QMK development branch is ~miryoku~ and may contain new commits not yet merged into QMK master.
+
+~miryoku~ is at https://github.com/manna-harbour/miryoku_qmk/tree/miryoku, and the corresponding Miryoku QMK readme is at https://github.com/manna-harbour/miryoku_qmk/tree/miryoku/users/manna-harbour_miryoku.
+
+New commits can be seen at the top of the [[https://github.com/manna-harbour/miryoku_qmk/commits/miryoku][history]] with commit messages beginning ~[miryoku]~.  After the new commits are squashed and merged upstream into QMK master by pull request the ~miryoku~ branch is renamed and a new ~miryoku~ branch is created from QMK master.
+
+To checkout the ~miryoku~ branch in your existing QMK build environment:
+#+BEGIN_SRC sh :tangle no
+git remote add miryoku_qmk git@github.com:manna-harbour/miryoku_qmk.git # if using SSH
+git remote add miryoku_qmk https://github.com/manna-harbour/miryoku_qmk.git # if using HTTPS
+git fetch miryoku_qmk
+git checkout --track miryoku_qmk/miryoku
+#+END_SRC
+
+
+** Layout
+
+*** General Principles
+
+- Use layers instead of reaching.
+- Use both hands instead of contortions.
+- Use the home positions as much as possible.
+- Make full use of the thumbs.
+- Avoid unnecessary complication.
+
+
+*** Details
+
+- 5 columns, 3 rows, 3 thumb keys, 2 hands.
+- Can be used on almost any split or non-split ergo or ortho keyboard.
+- Includes all keys found on a US layout TKL keyboard, plus media keys and mouse
+  emulation.
+- Home row is the middle row, home thumb key is the middle thumb key.
+- Maximum 1-u movement from home position for fingers and thumbs, and only along
+  one axis (except for the inner index finger column which is deprioritised
+  compared with the home columns).
+- Dual-function modifiers on home row, mirrored on both hands.
+- Dual-function layer change on thumbs.
+- Layers are designed orthogonally with a single purpose per hand and are
+  accessed by holding a thumb key on the opposite hand.
+- All layers on the same hand are based on the same basic key arrangement.
+- Holding layer change and modifiers on one hand combined with a single key
+  press on the other hand can produce any combination of modifiers and single
+  keys without any finger contortions.
+- Single function mods are also defined on layers on the same hand as the layer
+  change thumb key so layer change and mods can be held in any order or
+  simultaneously without race conditions.
+- As mods are only enabled on the opposite hand, auto-repeat is available on the
+  home row on layers for use with cursor and mouse keys.
+- Tap-hold auto-repeat is disabled to permit faster tap-hold switching on
+  thumbs, but thumb tap keys are mirrored onto some layers for use with
+  auto-repeat.  On other layers thumb keys are redefined with important
+  functions for that layer.
+- Auto Shift for numbers and symbols.
+
+
+*** Layers
+
+[[https://raw.githubusercontent.com/manna-harbour/miryoku/master/data/layers/miryoku-kle-reference.png]]
+
+The layers are maintained in tables.  ~U_NP~ indicates the key is not present
+and is used to fill in the table around the thumb keys.  The grid arrangement of
+the tables does not imply a particular physical layout.
+
+Basic keycodes are entered without the ~KC_~ prefix.  Symbols can be entered
+as-is, except for '-' (~MINS~), '.' (~DOT~), '|' (~PIPE~), and '"' (~DQUO~).
+Empty cells are unused.
+
+The base layer is maintained as separate tables for tap alphas, tap thumbs, and
+hold.  Other layers are specified as a single hand including thumbs.  Tables are
+combined to produce the keymap for each layer.
+
+Mods (and reset) will be available on sub layers on the same hand as the layer
+change thumb key.  Unknown names are considered to be layer names.
+
+
+**** Base
+
+[[https://raw.githubusercontent.com/manna-harbour/miryoku/master/data/layers/miryoku-kle-base.png]]
+The base layer alphas are Colemak Mod-DH.  Dot, comma, slash, and apostrophe are
+included with the alphas.  The primary, secondary, and tertiary thumb keys are
+backspace, enter, delete on the right and space, tab, escape on the left.
+
+Alternative alpha arrangements are also available.
+
+
+***** Tap
+
+****** Aliases
+:PROPERTIES:
+:CREATED:  [2022-02-15 Tue 13:33]
+:END:
+
+#+NAME: aliases
+| ASTRSK    | KC_KP_ASTERISK  |
+| CTRL_CAPS | CTL_T(KC_ESC)   |
+| CA_CAPS   | LCA_T(KC_CAPS)  |
+| FNM       | MO(_FNM)        |
+| NUM       | TG(_NUM)        |
+| MDIA      | TG(_MDIA)       |
+| GUI_A     | LGUI_T(KC_A)    |
+| ALT_R     | LALT_T(KC_R)    |
+| CTL_S     | LCTL_T(KC_S)    |
+| SHFT_T    | LSFT_T(KC_T)    |
+| SFT_N     | RSFT_T(KC_N)    |
+| CTL_E     | RCTL_T(KC_E)    |
+| ALT_I     | LALT_T(KC_I)    |
+| GUI_O     | RGUI_T(KC_O)    |
+| MDIA_V    | LT(_MDIA, KC_V) |
+| MLSFT     | OSM(MOD_LSFT)   |
+| MRSFT     | OSM(MOD_RSFT)   |
+| QUOT_TD   | TD(QUOT_LAYR)   |
+| SPC_TD    | TD(TD_SPC)      |
+
+#+NAME: aliases-def
+#+BEGIN_SRC python :var layer_table=aliases :var mods_table=mods :tangle no :results silent 
+mods_dict = dict.fromkeys(mods_table[0])
+layers = []
+keycodes = []
+results = ""
+for layer_row in layer_table:
+    results += '#define ' + layer_row[0] + ' ' + layer_row[1]
+    results += '\n'
+return results
+#+END_SRC
+
+*** Layers
+:PROPERTIES:
+:CREATED:  [2022-02-15 Tue 11:26]
+:END:
+#+NAME: layers
+| _COLEMAK | _QWERTY | _FNM | _NUM | _MDIA |
+
+#+NAME: blank
+| KC_NO |
+
+#+NAME: trns
+| _______ |
+
+**** Colemak
+***** Alphas
+#+NAME: colemakdh
+| Q | W | F | P | B | J | L | U | Y   | ; |
+| A | R | S | T | G | M | N | E | I   | O |
+| X | C | D | V | Z | K | H | , | DOT | / |
+
+***** Left Modifiers 
+#+NAME: mods-l
+| TAB   |
+| ESC   |
+| MLSFT |
+
+***** Right Modifiers
+#+NAME: mods-r
+| [       | ]   | \ | DEL |
+| QUOT_TD | RET |   |     |
+| MRSFT   | UP  |   |     |
+
+***** Bottom Row
+#+NAME: bottomrow
+| CAPS | LGUI | LALT | SPC_TD | RALT | RCTL | FNM | LEFT | DOWN | RIGHT |
+
+***** Top Row
+#+NAME: toprow
+| GESC | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 | - | = | <- | ` |
+
+***** Hold
+#+NAME: hold
+|       |       |       |        |   |   |        |       |       |       |
+| GUI_A | ALT_R | CTL_S | SHFT_T |   |   | SHFT_T | CTL_E | ALT_I | GUI_O |
+|       |       |       | MDIA_V |   |   |        |       |       |       |
+
+**** QWERTY
+:PROPERTIES:
+:CREATED:  [2022-02-15 Tue 14:59]
+:END:
+***** Alphas
+#+NAME: qwerty
+| Q | W | E | R | T | Y | U | I | O   | P |
+| A | S | D | F | G | H | J | K | L   | ; |
+| Z | X | C | V | B | N | M | , | DOT | / |
+
+**** Function Layer
+***** Alphas
+#+NAME: fnm
+|   |   |        |         |   |   |   | PSCR | SLCK |      |
+|   |   | QWERTY | COLEMAK |   |   |   | HOME | PGUP | BRIU |
+|   |   |        |         |   |   |   | END  | PGDN | BRID |
+
+***** Top Row
+#+NAME: fnm-toprow
+| ` | F1 | F2 | F3 | F4 | F5 | F6 | F7 | F8 | F9 | F10 | F11 | F12 |   | DT+ |
+
+***** Left Modifiers 
+#+NAME: fnm-mods-l
+|     |
+| NUM |
+|     |
+
+***** Right Modifiers
+#+NAME: fnm-mods-r
+|        |   |   | DT- |
+| ASTRSK |   |   |     |
+| DOT    |   |   |     |
+
+***** Bottom Row
+#+NAME: fnm-bottomrow
+| CAPS | LGUI | LALT | SPC_TD | RALT | RCTL | FNM | LEFT | DOWN | RIGHT |
+
+**** NUM Layer
+***** Alphas
+#+NAME: num
+|     |       |   |   |   |   | 7 | 8 | 9 | - |
+| NUM |       |   |   |   |   | 4 | 5 | 6 | + |
+|     | RESET |   |   |   |   | 1 | 2 | 3 | / |
+
+***** Top Row
+#+NAME: num-toprow
+| ` | F1 | F2 | F3 | F4 | F5 | F6 | F7 | F8 | F9 | F10 | F11  | F12 |  | ` |
+
+**** Functions
+:PROPERTIES:
+:CREATED:  [2022-02-15 Tue 23:00]
+:END:
+#+NAME: functions
+| QWERTY | COLEMAK |
+
+#+NAME: fn-hold
+|   |   |        |         |   |   |   |   |   |   |
+|   |   | QWERTY | COLEMAK |   |   |   |   |   |   |
+|   |   |        |         |   |   |   |   |   |   |
+
+** Code Generation
+
+The layout is maintained in emacs org-mode tables and converted to QMK keymap
+data structures using embedded python scripts.
+
+*** Table Conversion Scripts
+
+**** table-layout
+
+Produce base layer from separate tap and hold tables.
+
+#+NAME: table-layout
+#+BEGIN_SRC python :var blank_val=blank :var alphas_table=colemakdh :var alias_table=aliases :var mods_l_table=mods-l :var mods_r_table=mods-r :var bottom_table=bottomrow :var top_table=toprow  :var hold_table=hold :var symbol_names_table=symbol-names :var mods_table=mods :var td_table=tapdance :var osmods_table=osmods :var nonkc_table=nonkc :var fun_table=functions :tangle no :results verbatim
+from itertools import zip_longest
+from collections import OrderedDict
+
+
+def list_to_dict(lst):
+    res = {}
+    for i in lst:
+        res[i[0]] = i[1]
+    return res
+
+
+width = 10
+mods_dict = OrderedDict.fromkeys(mods_table[0])
+osmods_dict = OrderedDict.fromkeys(osmods_table[0])
+td_dict = OrderedDict.fromkeys(td_table[0])
+top_dict = OrderedDict.fromkeys(top_table[0])
+bottom_dict = OrderedDict.fromkeys(bottom_table[0])
+fun_dict = OrderedDict.fromkeys(fun_table[0])
+alias_dict = list_to_dict(alias_table)
+blank_val = blank_val[0]
+
+
+def keycode(key, hold, location):
+    if key == "":
+        code = "NO"
+    if str(key) in symbol_names_dict:
+        code = symbol_names_dict[str(key)]
+    elif key in alias_dict:
+        code = str(key)
+    elif key in osmods_dict:
+        code = "OSM(MOD_" + str(key[1::]) + ")"
+    elif key in td_dict:
+        code = "TD(" + str(key) + ")"
+    elif key:
+        code = str(key)
+    else:
+        code = "NO"
+    if not str(code).startswith(nonkc_tuple) and code not in alias_dict:
+        code = "KC_" + str(code)
+    if hold in osmods_dict:
+        code = "OSM(MOD_" + str(hold[1::]) + ")"
+    elif hold in mods_dict:
+        code = str(hold) + "_T(" + code + ")"
+    elif hold in alias_dict or hold in fun_dict:
+        code = hold
+    elif hold != "" and hold != "U_NP" and hold != "RESET":
+        code = "LT(" + str(hold) + ", " + code + ")"
+
+    code = (str(code + ", ")).ljust(width)
+    return code
+
+
+nonkc_tuple = tuple(nonkc_table[0])
+symbol_names_dict = {}
+for symbol, name, shifted_symbol, shifted_name in symbol_names_table:
+    symbol_names_dict[symbol] = name
+    symbol_names_dict[shifted_symbol] = shifted_name
+
+results = ""
+for top in top_dict:
+    results += keycode(top, "", "mod")
+
+results = results.rstrip(" ") + "\n"
+
+for lmod, tap_row, rmod, hold_row in zip_longest(
+    mods_l_table, alphas_table, mods_r_table, hold_table, fillvalue=""
+):
+    for mod in lmod:
+        results += keycode(str(mod), "", "mod")
+    for tap, hold in zip(tap_row, hold_row):
+        results += keycode(str(tap), hold, "alpha")
+    for mod in rmod:
+        results += keycode(str(mod), "", "rmod")
+    results = results.rstrip(" ") + "\n"
+
+
+i = 1
+length = 16 - len(bottom_dict.items())
+
+for bot in bottom_dict.keys():
+    results += keycode(str(bot), "", "bottom")
+
+for i in range(1, length):
+    mod = "NO"
+    results += (str(mod + ", ")).ljust(width)
+
+
+results = results.rstrip("\n, ")
+return results
+#+END_SRC
+
+#+RESULTS: table-layout
+: GESC,     1,        2,        3,        4,        5,        6,        7,        8,        9,        NO,       MINS,     EQL,      BSPC,     GRV,
+: TAB,      Q,        W,        F,        P,        B,        J,        L,        U,        Y,        SCLN,     LBRC,     RBRC,     BSLS,     DEL,
+: ESC,      GUI_A,    ALT_R,    CTL_S,    SHFT_T,   G,        M,        SHFT_T,   CTL_E,    ALT_I,    GUI_O,    QUOT_TD,  ENT,      NO,       NO,
+: MLSFT,    X,        C,        D,        MDIA_V,   Z,        K,        H,        COMM,     DOT,      SLSH,     MRSFT,    UP,       NO,       NO,
+: CAPS,     LGUI,     LALT,     SPC_TD,   RALT,     RCTL,     FNM,      LEFT,     DOWN,     RIGHT,    NO,       NO,       NO,       NO,       NO
+
+
+
+
+
+
+**** table-enums
+
+Produce layer enums from layer names in hold table.
+
+#+NAME: table-enums
+#+BEGIN_SRC python :var layer_table=layers :var mods_table=mods :tangle no
+mods_dict = dict.fromkeys(mods_table[0])
+layers = [ ]
+keycodes = [ ]
+for layer_row in layer_table:
+  for hold in layer_row:
+    if hold not in mods_dict and isinstance(hold, str) and hold != '' and hold != 'U_NP' and hold != 'RESET' and hold not in layers:
+      layers.append(hold)
+      if hold == "_COLEMAK":
+          hold = "_COLEMAK = SAFE_RANGE"
+      keycodes.append(hold[1:])
+results = 'enum tpeacock19_layers { ' + ', '.join(layers) + ' };'
+results = results.rstrip(' ') + '\n\n'
+results += 'enum tpeacock19_keycodes { ' + ', '.join(keycodes) + ' };'
+return results
+#+END_SRC
+
+#+RESULTS: table-enums
+: enum tpeacock19_layers { _COLEMAK, _QWERTY, _FNM, _NUM, _MDIA };
+: 
+: enum tpeacock19_keycodes { COLEMAK = SAFE_RANGE, QWERTY, FNM, NUM, MDIA };
+
+
+**** COMMENT python-version
+
+C-c C-c in code block to update
+
+#+NAME: python-version
+#+BEGIN_SRC python :tangle no
+import sys
+return sys.version
+#+END_SRC
+
+#+RESULTS: python-version
+: 3.10.2 (main, Jan 15 2022, 19:56:27) [GCC 11.1.0]
+
+
+*** Data
+
+**** symbol-names
+
+Symbol, name, and shifted symbol mappings for use in tables.
+
+#+NAME: symbol-names
+| `     | GRV   | ~    | TILD    |
+| "-"   | MINS  | _    | UNDS    |
+| =     | EQL   | +    | PLUS    |
+| [     | LBRC  | {    | LCBR    |
+| ]     | RBRC  | }    | RCBR    |
+| \     | BSLS  | PIPE | PIPE    |
+| ;     | SCLN  | :    | COLN    |
+| '     | QUOT  | DQUO | DQUO    |
+| ,     | COMM  | <    | LT      |
+| "."   | DOT   | >    | GT      |
+| /     | SLSH  | ?    | QUES    |
+| 1     | 1     | !    | EXLM    |
+| 2     | 2     | @    | AT      |
+| 3     | 3     | #    | HASH    |
+| 4     | 4     | $    | DLR     |
+| 5     | 5     | %    | PERC    |
+| 6     | 6     | ^    | CIRC    |
+| 7     | 7     | &    | AMPR    |
+| 8     | 8     | *    | ASTR    |
+| 9     | 9     | (    | LPRN    |
+| 0     | 0     | )    | RPRN    |
+| L^    | LSFT  | R^   | RSFT    |
+| GESC  | GESC  | TAB  | TAB     |
+| RET   | ENT   | <-   | BSPC    |
+| ESC   | ESC   | UP   | UP      |
+| RIGHT | RIGHT | LEFT | LEFT    |
+| DOWN  | DOWN  | DEL  | DEL     |
+| DT+   | DT_UP | DT-  | DT_DOWN |
+
+**** mods
+
+Modifiers usable in hold table.  Need to have the same name for ~KC_~ and ~_T~
+versions.
+
+#+NAME: mods
+| LSFT | LCTL | LALT | LGUI | RSFT | RCTL | RGUI | LCAC |
+
+#+NAME: osmods
+| OL^ | MLSFT | MLCTL | MLALT | MLGUI | OR^ | MRSFT | MRCTL | MRGUI | LCAC |
+
+
+**** nonkc
+
+Keycodes that match any of these prefixes will not have ~KC_~ automatically
+prepended.
+
+#+NAME: nonkc
+| U_ | RGB_ | RESET | S( | C( | SCMD( | LCMD( |   | OSM( | TD( | QWERTY | COLEMAK | KC_NO | KC_TRNS | _______ | DT_ |
+
+
+**** Tap dancing
+:PROPERTIES:
+:CREATED:  [2022-02-15 Tue 12:58]
+:END:
+
+#+NAME: tapdance
+| QUOT_LAYR | TD_RESET | TD_SPC |
+
+#+NAME: td-enums
+#+BEGIN_SRC python :var layer_table=tapdance :var mods_table=mods :tangle no
+mods_dict = dict.fromkeys(mods_table[0])
+layers = [ ]
+keycodes = [ ]
+for layer_row in layer_table:
+  for hold in layer_row:
+    if hold not in mods_dict and isinstance(hold, str) and hold != '' and hold != 'U_NP' and hold != 'RESET' and hold not in layers:
+      layers.append(hold)
+results = 'enum { ' + ', '.join(layers) + ' };'
+return results
+#+END_SRC
+
+#+RESULTS: td-enums
+: enum { QUOT_LAYR, TD_RESET, TD_SPC };
+
+#+NAME: td-setup
+#+begin_src c :main no :noweb yes :padline no :tangle no
+// Define a type for as many tap dance states as you need
+typedef enum {
+  TD_NONE,
+  TD_UNKNOWN,
+  TD_SINGLE_TAP,
+  TD_SINGLE_HOLD,
+  TD_DOUBLE_TAP
+} td_state_t;
+
+typedef struct {
+  bool is_press_action;
+  td_state_t state;
+
+} td_tap_t;
+
+<<td-enums()>>
+
+  // Function associated with all tap dances
+td_state_t cur_dance(qk_tap_dance_state_t *state);
+
+// Functions associated with individual tap dances
+void ql_finished(qk_tap_dance_state_t *state, void *user_data);
+void ql_reset(qk_tap_dance_state_t *state, void *user_data);
+
+<<aliases-def()>>
+
+
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+  [_COLEMAK] = LAYOUT(
+                      <<table-layout(alphas_table=colemakdh, mods_l_table=mods-l, mods_r_table=mods-r, bottom_table=bottomrow, top_table=toprow, hold_table=hold)>>
+                      ),
+  
+  [_QWERTY] = LAYOUT(
+                      <<table-layout(alphas_table=qwerty, mods_l_table=mods-l, mods_r_table=mods-r, bottom_table=bottomrow, top_table=toprow , hold_table=hold, blank_val=trns)>>
+                      ),
+
+  [_FNM] = LAYOUT(
+                      <<table-layout(alphas_table=fnm, mods_l_table=fnm-mods-l, mods_r_table=fnm-mods-r, bottom_table=fnm-bottomrow, top_table=fnm-toprow , hold_table=fn-hold, blank_val=trns)>>
+                      ),
+
+}
+#+end_src
+
+
+**** header
+
+Header for tangled files.
+
+#+NAME: header
+#+BEGIN_SRC C :main no :tangle no
+-*- buffer-read-only: t -*-
+Copyright 2022 Trey Peacock
+#+END_SRC
+
+
+**** license-qmk
+
+License for tangled QMK C source files.
+
+#+NAME: license-qmk
+#+BEGIN_SRC C :main no :tangle no
+/* This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+#+END_SRC
+
+
+*** [[file:rules.mk][keyboards/fc660c/keymaps/tpeacock19/rules.mk]]
+
+Build options.  Automatically included.
+
+#+BEGIN_SRC makefile :noweb yes :padline no :tangle rules.mk
+# <<header>>
+
+BOOTMAGIC_ENABLE = yes  # Enable Bootmagic Lite
+CONSOLE_ENABLE = no     # Disable Console for debug
+NKRO_ENABLE = no        # Disable N-Key Rollover
+
+# Optimize size but this may cause error "relocation truncated to fit"
+EXTRALDFLAGS = -Wl,--relax
+
+AUTO_SHIFT_ENABLE = yes
+TAP_DANCE_ENABLE = yes
+DYNAMIC_TAPPING_TERM_ENABLE = yes
+
+# Combos
+COMBO_ENABLE = yes
+VPATH += keyboards/gboards
+
+# Space saving
+LTO_ENABLE = yes
+MUSIC_ENABLE = no
+#+END_SRC
+
+
+*** [[file:config.h][keyboards/fc660c/keymaps/tpeacock19/config.h]]
+
+Config options.  Automatically included.
+
+#+BEGIN_SRC C :main no :noweb yes :padline no :tangle config.h
+// <<header>>
+
+<<license-qmk>>
+
+#pragma once
+
+// default but used in macros
+#undef TAPPING_TERM
+#define TAPPING_TERM 230
+#define TAPPING_TERM_PER_KEY
+
+// Prevent normal rollover on alphas from accidentally triggering mods.
+#define IGNORE_MOD_TAP_INTERRUPT
+
+// Enable rapid switch from tap to hold, disables double tap hold auto-repeat.
+#define TAPPING_FORCE_HOLD_PER_KEY
+
+// Auto Shift
+#define NO_AUTO_SHIFT_ALPHA
+#define AUTO_SHIFT_TIMEOUT TAPPING_TERM
+#define AUTO_SHIFT_NO_SETUP
+
+// Make actuation point more sensitive
+#define ACTUATION_DEPTH_ADJUSTMENT -3
+
+// Tapping this number of times holds the key until tapped once again.
+#define ONESHOT_TAP_TOGGLE 2 
+// Time (in ms) before the one shot code is released
+#define ONESHOT_TIMEOUT 5000 
+
+#define NO_MUSIC_MODE
+#+END_SRC
+
+*** [[file:keymap-new.c][keyboards/fc660c/keymaps/tpeacock19/keymap-new.c]] 
+:PROPERTIES:
+:CREATED:  [2022-02-15 Tue 11:57]
+:END:
+#+BEGIN_SRC C :main no :noweb yes :padline no :tangle keymap-new.c
+// <<header>>
+
+<<license-qmk>>
+
+#include QMK_KEYBOARD_H
+#include "g/keymap_combo.h"
+
+<<table-enums()>>
+
+<<td-setup>>
+
+#+END_SRC
+
+** Subset Mapping
+
+The keymap, build options, and configuration are shared between keyboards.  The
+layout is mapped onto keyboards with different physical layouts as a subset
+without code duplication using the QMK userspace feature and C macros.
+
+
+*** Customisation
+
+To add customisations to a keyboard or layout while importing the miryoku
+keymap, copy ~config.h~ and ~keymap.c~ from the keyboard or layout's
+~manna-harbour_miryoku/~ directory to a new directory, and create ~rules.mk~
+containing ~USER_NAME := manna-harbour_miryoku~.  The miryoku keymap will be
+imported and customisations can be added to those files as usual.  Keycodes can
+be added to unused keys by editing ~LAYOUT_miryoku~ in ~config.h~.
+
+For an unsupported keyboard or layout, do as above with a similar keyboard or
+layout and modify ~LAYOUT_miryoku~ in ~config.h~ referring to the keyboard or
+layout's ~LAYOUT~ macro.
+
+
+**** Examples
+
+To use any of the examples, create a new branch from the miryoku development
+branch and follow the same steps as seen in the commit messages and code changes
+in the examples, making the appropriate changes for your keyboard and desired
+customisations.
+
+
+***** Add Layers
+
+- https://github.com/manna-harbour/qmk_firmware/commits/miryoku-examples-add-layers/keyboards/crkbd/keymaps/miryoku-examples-add-layers
+
+
+** Documentation
+
+
+*** QMK
+
+- https://docs.qmk.fm/
+- https://docs.qmk.fm/#/config_options
+- https://docs.qmk.fm/#/feature_advanced_keycodes
+- https://docs.qmk.fm/#/feature_auto_shift
+- https://docs.qmk.fm/#/feature_layers
+- https://docs.qmk.fm/#/feature_layouts
+- https://docs.qmk.fm/#/feature_mouse_keys
+- https://docs.qmk.fm/#/feature_userspace
+- https://docs.qmk.fm/#/getting_started_introduction
+- https://docs.qmk.fm/#/getting_started_make_guide
+- https://docs.qmk.fm/#/keycodes
+- https://docs.qmk.fm/#/mod_tap
+- https://docs.qmk.fm/#/tap_hold
+
+
+*** Org Mode
+
+- https://orgmode.org/
+- https://orgmode.org/manual/Tables.html
+- https://orgmode.org/manual/Working-with-Source-Code.html
+
+
+** 
+
+[[https://github.com/manna-harbour][https://raw.githubusercontent.com/manna-harbour/miryoku/master/data/logos/manna-harbour-boa-32.png]]
