@@ -1,38 +1,20 @@
-# MCU name
-MCU = atmega32u4
+# -*- buffer-read-only: t -*-
+# Copyright 2022 Trey Peacock
 
-# Bootloader selection
-#   Teensy       halfkay
-#   Pro Micro    caterina
-#   Atmel DFU    atmel-dfu
-#   LUFA DFU     lufa-dfu
-#   QMK DFU      qmk-dfu
-#   ATmega32A    bootloadHID
-#   ATmega328P   USBasp
-BOOTLOADER = atmel-dfu
-
-# Build Options
-#   comment out to disable the options.
-#
-BOOTMAGIC_ENABLE = yes	# Virtual DIP switch configuration
-MOUSEKEY_ENABLE = yes	# Mouse keys
-EXTRAKEY_ENABLE = yes	# Audio control and System control
-CONSOLE_ENABLE = no	# Console for debug
-COMMAND_ENABLE = yes    # Commands for debug and configuration
-# NKRO_ENABLE = yes		# USB Nkey Rollover - not yet supported in LUFA
-# TAP_DANCE_ENABLE = yes
+BOOTMAGIC_ENABLE = yes  # Enable Bootmagic Lite
+CONSOLE_ENABLE = no     # Disable Console for debug
+NKRO_ENABLE = no        # Disable N-Key Rollover
 
 # Optimize size but this may cause error "relocation truncated to fit"
-#EXTRALDFLAGS = -Wl,--relax
+EXTRALDFLAGS = -Wl,--relax
 
-CUSTOM_MATRIX = yes
-SRC +=	matrix.c \
-		actuation_point.c \
-		i2c.c
-
-# WPM_ENABLE = yes
-# Holding down keys will result in shifted character
 AUTO_SHIFT_ENABLE = yes
+TAP_DANCE_ENABLE = yes
+DYNAMIC_TAPPING_TERM_ENABLE = yes
+
+# Combos
+COMBO_ENABLE = yes
+VPATH += keyboards/gboards
 
 # Space saving
 LTO_ENABLE = yes
