@@ -18,93 +18,7 @@ Miryoku QMK is periodically merged upstream into QMK master and it is generally 
 QMK master is at https://github.com/qmk/qmk_firmware/tree/master, and the corresponding Miryoku QMK readme is at https://github.com/qmk/qmk_firmware/tree/master/users/manna-harbour_miryoku.
 
 
-*** Miryoku QMK development branch
-
-The Miryoku QMK development branch is ~miryoku~ and may contain new commits not yet merged into QMK master.
-
-~miryoku~ is at https://github.com/manna-harbour/miryoku_qmk/tree/miryoku, and the corresponding Miryoku QMK readme is at https://github.com/manna-harbour/miryoku_qmk/tree/miryoku/users/manna-harbour_miryoku.
-
-New commits can be seen at the top of the [[https://github.com/manna-harbour/miryoku_qmk/commits/miryoku][history]] with commit messages beginning ~[miryoku]~.  After the new commits are squashed and merged upstream into QMK master by pull request the ~miryoku~ branch is renamed and a new ~miryoku~ branch is created from QMK master.
-
-To checkout the ~miryoku~ branch in your existing QMK build environment:
-#+BEGIN_SRC sh :tangle no
-git remote add miryoku_qmk git@github.com:manna-harbour/miryoku_qmk.git # if using SSH
-git remote add miryoku_qmk https://github.com/manna-harbour/miryoku_qmk.git # if using HTTPS
-git fetch miryoku_qmk
-git checkout --track miryoku_qmk/miryoku
-#+END_SRC
-
-
 ** Layout
-
-*** General Principles
-
-- Use layers instead of reaching.
-- Use both hands instead of contortions.
-- Use the home positions as much as possible.
-- Make full use of the thumbs.
-- Avoid unnecessary complication.
-
-
-*** Details
-
-- 5 columns, 3 rows, 3 thumb keys, 2 hands.
-- Can be used on almost any split or non-split ergo or ortho keyboard.
-- Includes all keys found on a US layout TKL keyboard, plus media keys and mouse
-  emulation.
-- Home row is the middle row, home thumb key is the middle thumb key.
-- Maximum 1-u movement from home position for fingers and thumbs, and only along
-  one axis (except for the inner index finger column which is deprioritised
-  compared with the home columns).
-- Dual-function modifiers on home row, mirrored on both hands.
-- Dual-function layer change on thumbs.
-- Layers are designed orthogonally with a single purpose per hand and are
-  accessed by holding a thumb key on the opposite hand.
-- All layers on the same hand are based on the same basic key arrangement.
-- Holding layer change and modifiers on one hand combined with a single key
-  press on the other hand can produce any combination of modifiers and single
-  keys without any finger contortions.
-- Single function mods are also defined on layers on the same hand as the layer
-  change thumb key so layer change and mods can be held in any order or
-  simultaneously without race conditions.
-- As mods are only enabled on the opposite hand, auto-repeat is available on the
-  home row on layers for use with cursor and mouse keys.
-- Tap-hold auto-repeat is disabled to permit faster tap-hold switching on
-  thumbs, but thumb tap keys are mirrored onto some layers for use with
-  auto-repeat.  On other layers thumb keys are redefined with important
-  functions for that layer.
-- Auto Shift for numbers and symbols.
-
-
-*** Layers
-
-[[https://raw.githubusercontent.com/manna-harbour/miryoku/master/data/layers/miryoku-kle-reference.png]]
-
-The layers are maintained in tables.  ~U_NP~ indicates the key is not present
-and is used to fill in the table around the thumb keys.  The grid arrangement of
-the tables does not imply a particular physical layout.
-
-Basic keycodes are entered without the ~KC_~ prefix.  Symbols can be entered
-as-is, except for '-' (~MINS~), '.' (~DOT~), '|' (~PIPE~), and '"' (~DQUO~).
-Empty cells are unused.
-
-The base layer is maintained as separate tables for tap alphas, tap thumbs, and
-hold.  Other layers are specified as a single hand including thumbs.  Tables are
-combined to produce the keymap for each layer.
-
-Mods (and reset) will be available on sub layers on the same hand as the layer
-change thumb key.  Unknown names are considered to be layer names.
-
-
-**** Base
-
-[[https://raw.githubusercontent.com/manna-harbour/miryoku/master/data/layers/miryoku-kle-base.png]]
-The base layer alphas are Colemak Mod-DH.  Dot, comma, slash, and apostrophe are
-included with the alphas.  The primary, secondary, and tertiary thumb keys are
-backspace, enter, delete on the right and space, tab, escape on the left.
-
-Alternative alpha arrangements are also available.
-
 
 ***** Tap
 
@@ -114,25 +28,29 @@ Alternative alpha arrangements are also available.
 :END:
 
 #+NAME: aliases
-| ASTRSK    | KC_KP_ASTERISK  |
-| CTRL_CAPS | CTL_T(KC_ESC)   |
-| CA_CAPS   | LCA_T(KC_CAPS)  |
-| FNM       | MO(_FNM)        |
-| NUM       | TG(_NUM)        |
-| MDIA      | TG(_MDIA)       |
-| GUI_A     | LGUI_T(KC_A)    |
-| ALT_R     | LALT_T(KC_R)    |
-| CTL_S     | LCTL_T(KC_S)    |
-| SHFT_T    | LSFT_T(KC_T)    |
-| SFT_N     | RSFT_T(KC_N)    |
-| CTL_E     | RCTL_T(KC_E)    |
-| ALT_I     | LALT_T(KC_I)    |
-| GUI_O     | RGUI_T(KC_O)    |
-| MDIA_V    | LT(_MDIA, KC_V) |
-| MLSFT     | OSM(MOD_LSFT)   |
-| MRSFT     | OSM(MOD_RSFT)   |
-| QUOT_TD   | TD(QUOT_LAYR)   |
-| SPC_TD    | TD(TD_SPC)      |
+| ASTRSK  | KC_KP_ASTERISK  |
+| C_ESC   | CTL_T(KC_ESC)   |
+| CA_CAPS | LCA_T(KC_CAPS)  |
+| FNM     | MO(_FNM)        |
+| NUM     | TG(_NUM)        |
+| MDIA    | TG(_MDIA)       |
+| UTIL    | TG(_UTIL)       |
+| GUI_A   | LGUI_T(KC_A)    |
+| ALT_R   | LALT_T(KC_R)    |
+| CTL_S   | LCTL_T(KC_S)    |
+| SHFT_T  | LSFT_T(KC_T)    |
+| SFT_N   | RSFT_T(KC_N)    |
+| CTL_E   | RCTL_T(KC_E)    |
+| ALT_I   | LALT_T(KC_I)    |
+| GUI_O   | RGUI_T(KC_O)    |
+| MDIA_V  | LT(_MDIA, KC_V) |
+| UTIL_K  | LT(_UTIL, KC_K) |
+| UTIL_N  | LT(_UTIL, KC_N) |
+| MLSFT   | OSM(MOD_LSFT)   |
+| MRSFT   | OSM(MOD_RSFT)   |
+| QUOT_TD | TD(QUOT_LAYR)   |
+| SPC_TD  | TD(TD_SPC)      |
+| TD_RES  | TD(TD_RESET)    |
 
 #+NAME: aliases-def
 #+BEGIN_SRC python :var layer_table=aliases :var mods_table=mods :tangle no :results silent 
@@ -143,6 +61,7 @@ results = ""
 for layer_row in layer_table:
     results += '#define ' + layer_row[0] + ' ' + layer_row[1]
     results += '\n'
+results += '#define GRAVE_MODS  (MOD_BIT(KC_LSHIFT)|MOD_BIT(KC_RSHIFT)|MOD_BIT(KC_LGUI)|MOD_BIT(KC_RGUI)|MOD_BIT(KC_LALT)|MOD_BIT(KC_RALT))\n'
 return results
 #+END_SRC
 
@@ -151,7 +70,10 @@ return results
 :CREATED:  [2022-02-15 Tue 11:26]
 :END:
 #+NAME: layers
-| _COLEMAK | _QWERTY | _FNM | _NUM | _MDIA |
+| _COLEMAK | _QWERTY | _FNM | _NUM | _MDIA | _UTIL |
+
+#+NAME: layer-functions
+| QWERTY | COLEMAK |
 
 #+NAME: blank
 | KC_NO |
@@ -160,6 +82,10 @@ return results
 | _______ |
 
 **** Colemak
+***** Top Row
+#+NAME: toprow
+| GESC | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 | - | = | <- | ` |
+
 ***** Alphas
 #+NAME: colemakdh
 | Q | W | F | P | B | J | L | U | Y   | ; |
@@ -169,28 +95,24 @@ return results
 ***** Left Modifiers 
 #+NAME: mods-l
 | TAB   |
-| ESC   |
+| C_ESC |
 | MLSFT |
 
 ***** Right Modifiers
 #+NAME: mods-r
-| [       | ]   | \ | DEL |
-| QUOT_TD | RET |   |     |
-| MRSFT   | UP  |   |     |
+| [       | ]   | \   | DEL |
+| QUOT_TD | ENT | xxx | xxx |
+| MRSFT   | UP  | xxx | xxx |
 
 ***** Bottom Row
 #+NAME: bottomrow
 | CAPS | LGUI | LALT | SPC_TD | RALT | RCTL | FNM | LEFT | DOWN | RIGHT |
 
-***** Top Row
-#+NAME: toprow
-| GESC | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 | - | = | <- | ` |
-
 ***** Hold
 #+NAME: hold
-|       |       |       |        |   |   |        |       |       |       |
-| GUI_A | ALT_R | CTL_S | SHFT_T |   |   | SHFT_T | CTL_E | ALT_I | GUI_O |
-|       |       |       | MDIA_V |   |   |        |       |       |       |
+|       |       |       |        |   |        |       |       |       |       |
+| GUI_A | ALT_R | CTL_S | SHFT_T |   |        | SFT_N | CTL_E | ALT_I | GUI_O |
+|       |       |       | MDIA_V |   | UTIL_K |       |       |       |       |
 
 **** QWERTY
 :PROPERTIES:
@@ -202,55 +124,151 @@ return results
 | A | S | D | F | G | H | J | K | L   | ; |
 | Z | X | C | V | B | N | M | , | DOT | / |
 
-**** Function Layer
-***** Alphas
-#+NAME: fnm
-|   |   |        |         |   |   |   | PSCR | SLCK |      |
-|   |   | QWERTY | COLEMAK |   |   |   | HOME | PGUP | BRIU |
-|   |   |        |         |   |   |   | END  | PGDN | BRID |
+***** Hold
+#+NAME: q-hold
+|   |   |   |        |   |        |   |   |   |   |
+|   |   |   |        |   |        |   |   |   |   |
+|   |   |   | MDIA_V |   | UTIL_N |   |   |   |   |
 
+**** fnm Layer
 ***** Top Row
 #+NAME: fnm-toprow
-| ` | F1 | F2 | F3 | F4 | F5 | F6 | F7 | F8 | F9 | F10 | F11 | F12 |   | DT+ |
+| ` | F1 | F2 | F3 | F4 | F5 | F6 | F7 | F8 | F9 | F10 | F11 | F12 |   |   |
+
+***** Alphas
+#+NAME: fnm
+|   |      |        |         |   |   |   | PSCR | SLCK |   |
+|   |      | QWERTY | COLEMAK |   |   |   | HOME | PGUP |   |
+|   | COPY |        | PASTE   |   |   |   | END  | PGDN |   |
 
 ***** Left Modifiers 
 #+NAME: fnm-mods-l
-|     |
-| NUM |
-|     |
+|   |
+|   |
+|   |
 
 ***** Right Modifiers
 #+NAME: fnm-mods-r
-|        |   |   | DT- |
-| ASTRSK |   |   |     |
-| DOT    |   |   |     |
+|      |     | F20 |     |
+|      |     | xxx | xxx |
+| BTN1 | MUP | xxx | xxx |
 
 ***** Bottom Row
 #+NAME: fnm-bottomrow
-| CAPS | LGUI | LALT | SPC_TD | RALT | RCTL | FNM | LEFT | DOWN | RIGHT |
+| DEBUG | RESET |   |   |   |   |   | MLEFT | MDOWN | MRIGHT |
 
-**** NUM Layer
-***** Alphas
-#+NAME: num
-|     |       |   |   |   |   | 7 | 8 | 9 | - |
-| NUM |       |   |   |   |   | 4 | 5 | 6 | + |
-|     | RESET |   |   |   |   | 1 | 2 | 3 | / |
-
-***** Top Row
-#+NAME: num-toprow
-| ` | F1 | F2 | F3 | F4 | F5 | F6 | F7 | F8 | F9 | F10 | F11  | F12 |  | ` |
-
-**** Functions
+***** Hold
 :PROPERTIES:
-:CREATED:  [2022-02-15 Tue 23:00]
+:CREATED:  [2022-02-16 Wed 18:32]
 :END:
-#+NAME: functions
-| QWERTY | COLEMAK |
-
 #+NAME: fn-hold
 |   |   |        |         |   |   |   |   |   |   |
 |   |   | QWERTY | COLEMAK |   |   |   |   |   |   |
 |   |   |        |         |   |   |   |   |   |   |
+
+**** num layer
+***** Top Row
+#+NAME: num-toprow
+| ` | F1 | F2 | F3 | F4 | F5 | F6 | F7 | F8 | F9 | F10 | F11 | F12 | DTP | DT+ |
+
+***** Alphas
+#+NAME: num
+|   |   |   |   |   |   | 7 | 8 | 9 | - |
+|   |   |   |   |   |   | 4 | 5 | 6 | + |
+|   |   |   |   |   |   | 1 | 2 | 3 | / |
+
+***** Left Modifiers 
+#+NAME: num-mods-l
+|     |
+| NUM |
+| DOT |
+
+***** Right Modifiers
+#+NAME: num-mods-r
+|        |     |     | DT- |
+| ASTRSK |     | xxx | xxx |
+| DOT    | MUP | xxx | xxx |
+
+***** Bottom Row
+#+NAME: num-bottomrow
+|DEBUG |RESET |   | 0 |   |   |   | MLEFT | MDOWN | MRIGHT |
+
+***** Hold
+#+NAME: num-hold
+|   |   |        |         |   |   |   |   |   |   |
+|   |   | QWERTY | COLEMAK |   |   |   |   |   |   |
+|   |   |        |         |   |   |   |   |   |   |
+
+**** media layer
+***** Top Row
+#+NAME: mdia-toprow
+|   |   |   |   |   |   |   |   |   |   |   |   |   | ASRP | AS+ |
+
+***** Alphas
+#+NAME: mdia
+   |   |   |   |   |   |   |      | MUTE |      |      |
+   |   |   |   |   |   |   | MPRV | VOL- | VOL+ | MNXT |
+   |   |   |   |   |   |   |      |      |      |      |
+
+***** Left Modifiers 
+#+NAME: mdia-mods-l
+|      |
+| MDIA |
+|      |
+
+***** Right Modifiers
+#+NAME: mdia-mods-r
+|   |     |     | AS- |
+|   |     | xxx | xxx |
+|   | MUP | xxx | xxx |
+
+***** Bottom Row
+#+NAME: mdia-bottomrow
+|   |   |   | MPLY |   |   |   | MLEFT | MDOWN | MRIGHT |
+
+***** Hold
+#+NAME: mdia-hold
+|   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |
+
+****  util layer
+***** Top Row
+#+NAME: util-toprow
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+
+***** Alphas
+#+NAME: util
+|   |      |      |   |   |   |   |   |   |   |
+|   | BRID | BRIU |   |   |   |   |   |   |   |
+|   |      |      |   |   |   |   |   |   |   |
+
+***** Left Modifiers 
+#+NAME: util-mods-l
+|      |
+| UTIL |
+|      |
+
+***** Right Modifiers
+#+NAME: util-mods-r
+|   |   |     |     |
+|   |   | xxx | xxx |
+|   |   | xxx | xxx |
+
+***** Bottom Row
+#+NAME: util-bottomrow
+|   |   |   |   |   |   |   |   |   |   |
+
+***** Hold
+#+NAME: util-hold
+|   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |
+
+**** Layer Functions
+:PROPERTIES:
+:CREATED:  [2022-02-15 Tue 23:00]
+:END:
 
 ** Code Generation
 
@@ -264,7 +282,12 @@ data structures using embedded python scripts.
 Produce base layer from separate tap and hold tables.
 
 #+NAME: table-layout
-#+BEGIN_SRC python :var blank_val=blank :var alphas_table=colemakdh :var alias_table=aliases :var mods_l_table=mods-l :var mods_r_table=mods-r :var bottom_table=bottomrow :var top_table=toprow  :var hold_table=hold :var symbol_names_table=symbol-names :var mods_table=mods :var td_table=tapdance :var osmods_table=osmods :var nonkc_table=nonkc :var fun_table=functions :tangle no :results verbatim
+#+header: :var blank_val=blank :var alphas_table=colemakdh :var alias_table=aliases
+#+header: :var mods_l_table=mods-l :var mods_r_table=mods-r :var bottom_table=bottomrow
+#+header: :var top_table=toprow  :var hold_table=hold :var symbol_names_table=symbol-names
+#+header: :var mods_table=mods :var td_table=tapdance :var osmods_table=osmods
+#+header: :var nonkc_table=nonkc :var fun_table=layer-functions
+#+BEGIN_SRC python  :eval t :tangle no :results silent
 from itertools import zip_longest
 from collections import OrderedDict
 
@@ -276,32 +299,30 @@ def list_to_dict(lst):
     return res
 
 
-width = 10
-mods_dict = OrderedDict.fromkeys(mods_table[0])
-osmods_dict = OrderedDict.fromkeys(osmods_table[0])
-td_dict = OrderedDict.fromkeys(td_table[0])
-top_dict = OrderedDict.fromkeys(top_table[0])
-bottom_dict = OrderedDict.fromkeys(bottom_table[0])
-fun_dict = OrderedDict.fromkeys(fun_table[0])
+width = 9
+mods_dict = mods_table[0]
+osmods_dict = osmods_table[0]
+td_dict = td_table[0]
+top_dict = top_table[0]
+bottom_dict = bottom_table[0]
+fun_dict = fun_table[0]
 alias_dict = list_to_dict(alias_table)
 blank_val = blank_val[0]
 
 
-def keycode(key, hold, location):
-    if key == "":
-        code = "NO"
-    if str(key) in symbol_names_dict:
-        code = symbol_names_dict[str(key)]
-    elif key in alias_dict:
-        code = str(key)
+def keycode(key, hold, location, skip):
+    if key in symbol_names_dict:
+        code = symbol_names_dict[key]
     elif key in osmods_dict:
         code = "OSM(MOD_" + str(key[1::]) + ")"
     elif key in td_dict:
         code = "TD(" + str(key) + ")"
+    elif key == "xxx":
+        return "";
     elif key:
-        code = str(key)
+        code = key
     else:
-        code = "NO"
+        code = blank_val[0]
     if not str(code).startswith(nonkc_tuple) and code not in alias_dict:
         code = "KC_" + str(code)
     if hold in osmods_dict:
@@ -312,8 +333,11 @@ def keycode(key, hold, location):
         code = hold
     elif hold != "" and hold != "U_NP" and hold != "RESET":
         code = "LT(" + str(hold) + ", " + code + ")"
-
-    code = (str(code + ", ")).ljust(width)
+    if skip:
+        code = (str(code + ", ")).ljust(width)
+        code += "".ljust(width) * skip
+    else:
+        code = (str(code + ", ")).ljust(width)
     return code
 
 
@@ -324,56 +348,61 @@ for symbol, name, shifted_symbol, shifted_name in symbol_names_table:
     symbol_names_dict[shifted_symbol] = shifted_name
 
 results = ""
+n = 1
 for top in top_dict:
-    results += keycode(top, "", "mod")
+    if n == 14:
+        results += keycode(str(top), "", "mod", 1)
+    else:
+        results += keycode(str(top), "", "mod", "")
+    n += 1
+        
 
 results = results.rstrip(" ") + "\n"
 
+n = 1
+row = 1
 for lmod, tap_row, rmod, hold_row in zip_longest(
     mods_l_table, alphas_table, mods_r_table, hold_table, fillvalue=""
 ):
+    n = 1
     for mod in lmod:
-        results += keycode(str(mod), "", "mod")
+        results += keycode(str(mod), "", "mod","")
     for tap, hold in zip(tap_row, hold_row):
-        results += keycode(str(tap), hold, "alpha")
+        results += keycode(str(tap), hold, "alpha", "")
     for mod in rmod:
-        results += keycode(str(mod), "", "rmod")
+        if row == 1 and n == 3:
+            results += keycode(str(mod), "", "rmod",1)
+        elif row == 2 and n == 1:
+            results += keycode(str(mod), "", "rmod",1)
+        elif row == 3 and n == 1:
+            results += "".ljust(width) * 2
+            results += keycode(str(mod), "", "rmod","")
+        else:
+            results += keycode(str(mod), "", "rmod","")
+        n += 1
     results = results.rstrip(" ") + "\n"
+    row += 1
 
+n = 1
+for bot in bottom_dict:
+    if n == 3 or n == 4:
+        results += keycode(str(bot), "", "bottom", 3)
+    else:
+        results += keycode(str(bot), "", "bottom", "")
+    n += 1
 
-i = 1
-length = 16 - len(bottom_dict.items())
-
-for bot in bottom_dict.keys():
-    results += keycode(str(bot), "", "bottom")
-
-for i in range(1, length):
-    mod = "NO"
-    results += (str(mod + ", ")).ljust(width)
 
 
 results = results.rstrip("\n, ")
 return results
 #+END_SRC
 
-#+RESULTS: table-layout
-: GESC,     1,        2,        3,        4,        5,        6,        7,        8,        9,        NO,       MINS,     EQL,      BSPC,     GRV,
-: TAB,      Q,        W,        F,        P,        B,        J,        L,        U,        Y,        SCLN,     LBRC,     RBRC,     BSLS,     DEL,
-: ESC,      GUI_A,    ALT_R,    CTL_S,    SHFT_T,   G,        M,        SHFT_T,   CTL_E,    ALT_I,    GUI_O,    QUOT_TD,  ENT,      NO,       NO,
-: MLSFT,    X,        C,        D,        MDIA_V,   Z,        K,        H,        COMM,     DOT,      SLSH,     MRSFT,    UP,       NO,       NO,
-: CAPS,     LGUI,     LALT,     SPC_TD,   RALT,     RCTL,     FNM,      LEFT,     DOWN,     RIGHT,    NO,       NO,       NO,       NO,       NO
-
-
-
-
-
-
 **** table-enums
 
 Produce layer enums from layer names in hold table.
 
 #+NAME: table-enums
-#+BEGIN_SRC python :var layer_table=layers :var mods_table=mods :tangle no
+#+BEGIN_SRC python :var layer_table=layers :var mods_table=mods :tangle no :results silent
 mods_dict = dict.fromkeys(mods_table[0])
 layers = [ ]
 keycodes = [ ]
@@ -389,12 +418,6 @@ results = results.rstrip(' ') + '\n\n'
 results += 'enum tpeacock19_keycodes { ' + ', '.join(keycodes) + ' };'
 return results
 #+END_SRC
-
-#+RESULTS: table-enums
-: enum tpeacock19_layers { _COLEMAK, _QWERTY, _FNM, _NUM, _MDIA };
-: 
-: enum tpeacock19_keycodes { COLEMAK = SAFE_RANGE, QWERTY, FNM, NUM, MDIA };
-
 
 **** COMMENT python-version
 
@@ -417,34 +440,33 @@ return sys.version
 Symbol, name, and shifted symbol mappings for use in tables.
 
 #+NAME: symbol-names
-| `     | GRV   | ~    | TILD    |
-| "-"   | MINS  | _    | UNDS    |
-| =     | EQL   | +    | PLUS    |
-| [     | LBRC  | {    | LCBR    |
-| ]     | RBRC  | }    | RCBR    |
-| \     | BSLS  | PIPE | PIPE    |
-| ;     | SCLN  | :    | COLN    |
-| '     | QUOT  | DQUO | DQUO    |
-| ,     | COMM  | <    | LT      |
-| "."   | DOT   | >    | GT      |
-| /     | SLSH  | ?    | QUES    |
-| 1     | 1     | !    | EXLM    |
-| 2     | 2     | @    | AT      |
-| 3     | 3     | #    | HASH    |
-| 4     | 4     | $    | DLR     |
-| 5     | 5     | %    | PERC    |
-| 6     | 6     | ^    | CIRC    |
-| 7     | 7     | &    | AMPR    |
-| 8     | 8     | *    | ASTR    |
-| 9     | 9     | (    | LPRN    |
-| 0     | 0     | )    | RPRN    |
-| L^    | LSFT  | R^   | RSFT    |
-| GESC  | GESC  | TAB  | TAB     |
-| RET   | ENT   | <-   | BSPC    |
-| ESC   | ESC   | UP   | UP      |
-| RIGHT | RIGHT | LEFT | LEFT    |
-| DOWN  | DOWN  | DEL  | DEL     |
-| DT+   | DT_UP | DT-  | DT_DOWN |
+| `      | GRV   | ~     | TILD    |
+| "-"    | MINS  | _     | UNDS    |
+| =      | EQL   | +     | PLUS    |
+| [      | LBRC  | {     | LCBR    |
+| ]      | RBRC  | }     | RCBR    |
+| \      | BSLS  | PIPE  | PIPE    |
+| ;      | SCLN  | :     | COLN    |
+| '      | QUOT  | DQUO  | DQUO    |
+| ,      | COMM  | <     | LT      |
+| "."    | DOT   | >     | GT      |
+| /      | SLSH  | ?     | QUES    |
+| 1      | 1     | !     | EXLM    |
+| 2      | 2     | @     | AT      |
+| 3      | 3     | #     | HASH    |
+| 4      | 4     | $     | DLR     |
+| 5      | 5     | %     | PERC    |
+| 6      | 6     | ^     | CIRC    |
+| 7      | 7     | &     | AMPR    |
+| 8      | 8     | *     | ASTR    |
+| 9      | 9     | (     | LPRN    |
+| 0      | 0     | )     | RPRN    |
+| <-     | BSPC  | MLEFT | MS_L    |
+| MRIGHT | MS_R  | MUP   | MS_U    |
+| MDOWN  | MS_D  | DT-   | DT_DOWN |
+| DT+    | DT_UP | DTP   | DT_PRNT |
+| VOL+   | VOLU  | VOL-  | VOLD    |
+| AS+    | ASUP  | AS-   | ASDN    |
 
 **** mods
 
@@ -455,7 +477,7 @@ versions.
 | LSFT | LCTL | LALT | LGUI | RSFT | RCTL | RGUI | LCAC |
 
 #+NAME: osmods
-| OL^ | MLSFT | MLCTL | MLALT | MLGUI | OR^ | MRSFT | MRCTL | MRGUI | LCAC |
+| OL^ | MLCTL | MLALT | MLGUI | OR^ | MRCTL | MRGUI | LCAC |
 
 
 **** nonkc
@@ -464,10 +486,10 @@ Keycodes that match any of these prefixes will not have ~KC_~ automatically
 prepended.
 
 #+NAME: nonkc
-| U_ | RGB_ | RESET | S( | C( | SCMD( | LCMD( |   | OSM( | TD( | QWERTY | COLEMAK | KC_NO | KC_TRNS | _______ | DT_ |
+| U_ | RGB_ | DEBUG | RESET | S( | C( | SCMD( | LCMD( | OSM( | TD( | QWERTY | COLEMAK | KC_NO | KC_TRNS | _______ | DT_ |
 
 
-**** Tap dancing
+**** Tap Dance
 :PROPERTIES:
 :CREATED:  [2022-02-15 Tue 12:58]
 :END:
@@ -476,7 +498,7 @@ prepended.
 | QUOT_LAYR | TD_RESET | TD_SPC |
 
 #+NAME: td-enums
-#+BEGIN_SRC python :var layer_table=tapdance :var mods_table=mods :tangle no
+#+BEGIN_SRC python :var layer_table=tapdance :var mods_table=mods :tangle no :results silent
 mods_dict = dict.fromkeys(mods_table[0])
 layers = [ ]
 keycodes = [ ]
@@ -484,63 +506,247 @@ for layer_row in layer_table:
   for hold in layer_row:
     if hold not in mods_dict and isinstance(hold, str) and hold != '' and hold != 'U_NP' and hold != 'RESET' and hold not in layers:
       layers.append(hold)
-results = 'enum { ' + ', '.join(layers) + ' };'
+results = 'enum { ' + ', '.join(layers) + ' }'
 return results
 #+END_SRC
-
-#+RESULTS: td-enums
-: enum { QUOT_LAYR, TD_RESET, TD_SPC };
 
 #+NAME: td-setup
 #+begin_src c :main no :noweb yes :padline no :tangle no
 // Define a type for as many tap dance states as you need
-typedef enum {
-  TD_NONE,
-  TD_UNKNOWN,
-  TD_SINGLE_TAP,
-  TD_SINGLE_HOLD,
-  TD_DOUBLE_TAP
-} td_state_t;
+typedef enum { TD_NONE, TD_UNKNOWN, TD_SINGLE_TAP, TD_SINGLE_HOLD, TD_DOUBLE_TAP } td_state_t;
 
 typedef struct {
-  bool is_press_action;
-  td_state_t state;
-
+    bool       is_press_action;
+    td_state_t state;
 } td_tap_t;
 
-<<td-enums()>>
+<<td-enums()>>;
 
-  // Function associated with all tap dances
+// Function associated with all tap dances
 td_state_t cur_dance(qk_tap_dance_state_t *state);
 
 // Functions associated with individual tap dances
 void ql_finished(qk_tap_dance_state_t *state, void *user_data);
 void ql_reset(qk_tap_dance_state_t *state, void *user_data);
+#+end_src
 
-<<aliases-def()>>
+#+NAME: td-funs
+#+begin_src c :main no :noweb yes :padline no :tangle no
+// Determine the current tap dance state
+td_state_t cur_dance(qk_tap_dance_state_t *state) {
+    if (state->count == 1) {
+        if (!state->pressed)
+            return TD_SINGLE_TAP;
+        else
+            return TD_SINGLE_HOLD;
+    } else if (state->count == 2)
+        return TD_DOUBLE_TAP;
+    else
+        return TD_UNKNOWN;
+}
 
+// Initialize tap structure associated with example tap dance key
+static td_tap_t ql_tap_state = {.is_press_action = true, .state = TD_NONE};
 
+void ql_finished(qk_tap_dance_state_t *state, void *user_data) {
+    ql_tap_state.state = cur_dance(state);
+    switch (ql_tap_state.state) {
+        case TD_SINGLE_TAP:
+            tap_code(KC_QUOT);
+            break;
+        case TD_SINGLE_HOLD:
+            layer_on(_FNM);
+            break;
+        case TD_DOUBLE_TAP:
+            // Check to see if the layer is already set
+            if (layer_state_is(_NUM)) {
+                // If already set, then switch it off
+                layer_off(_NUM);
+            } else {
+                // If not already set, then switch the layer on
+                layer_on(_NUM);
+            }
+            break;
+        default:
+            break;
+    }
+};
+
+void ql_reset(qk_tap_dance_state_t *state, void *user_data) {
+    // If the key was held down and now is released then switch off the layer
+    if (ql_tap_state.state == TD_SINGLE_HOLD) {
+        layer_off(_FNM);
+    }
+    ql_tap_state.state = TD_NONE;
+};
+
+// Associate our tap dance key with its functionality
+qk_tap_dance_action_t tap_dance_actions[] = {[QUOT_LAYR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, ql_finished, ql_reset), [TD_SPC] = ACTION_TAP_DANCE_DOUBLE(KC_SPC, KC_ENT)};
+#+end_src
+
+**** Layers
+:PROPERTIES:
+:CREATED:  [2022-02-16 Wed 19:20]
+:END:
+
+#+NAME: layer-setup
+#+begin_src c :main no :noweb yes :padline no :tangle no
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_COLEMAK] = LAYOUT(
-                      <<table-layout(alphas_table=colemakdh, mods_l_table=mods-l, mods_r_table=mods-r, bottom_table=bottomrow, top_table=toprow, hold_table=hold)>>
+                      <<table-layout()>>
                       ),
   
   [_QWERTY] = LAYOUT(
-                      <<table-layout(alphas_table=qwerty, mods_l_table=mods-l, mods_r_table=mods-r, bottom_table=bottomrow, top_table=toprow , hold_table=hold, blank_val=trns)>>
+                      <<table-layout(alphas_table=qwerty, mods_l_table=mods-l, mods_r_table=mods-r, bottom_table=bottomrow, top_table=toprow , hold_table=q-hold, blank_val=trns)>>
                       ),
 
   [_FNM] = LAYOUT(
                       <<table-layout(alphas_table=fnm, mods_l_table=fnm-mods-l, mods_r_table=fnm-mods-r, bottom_table=fnm-bottomrow, top_table=fnm-toprow , hold_table=fn-hold, blank_val=trns)>>
                       ),
 
-}
+  [_NUM] = LAYOUT(
+                      <<table-layout(alphas_table=num, mods_l_table=num-mods-l, mods_r_table=num-mods-r, bottom_table=num-bottomrow, top_table=num-toprow , hold_table=num-hold, blank_val=trns)>>
+                      ),
+  [_MDIA] = LAYOUT(
+                      <<table-layout(alphas_table=mdia, mods_l_table=mdia-mods-l, mods_r_table=mdia-mods-r, bottom_table=mdia-bottomrow, top_table=mdia-toprow , hold_table=mdia-hold, blank_val=trns)>>
+                      ),
+  [_UTIL] = LAYOUT(
+                      <<table-layout(alphas_table=util, mods_l_table=util-mods-l, mods_r_table=util-mods-r, bottom_table=util-bottomrow, top_table=util-toprow , hold_table=util-hold, blank_val=trns)>>
+                      )
+};
+#+end_src
+
+**** Per Key Settings
+:PROPERTIES:
+:CREATED:  [2022-02-16 Wed 21:35]
+:END:
+
+#+NAME: tap-term-per-key
+#+begin_src c :main no :noweb yes :padline no :tangle no
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LT(5, KC_K):
+            return TAPPING_TERM + 150;
+        case LT(4, KC_V):
+            return TAPPING_TERM + 150;
+        case TD(QUOT_LAYR):
+            return TAPPING_TERM + 150;
+        case GUI_T(KC_SPC):
+            return TAPPING_TERM + 1250;
+        default:
+            return TAPPING_TERM;
+    }
+};
 #+end_src
 
 
+#+NAME: tap-force-per-key
+#+begin_src c :main no :noweb yes :padline no :tangle no
+bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LT(1, KC_BSPC):
+            return true;
+        default:
+            if (record->event.key.row == 4) {
+                return true;
+            }
+            return false;
+    }
+};
+#+end_src
+
+**** User Processes
+:PROPERTIES:
+:CREATED:  [2022-02-16 Wed 21:38]
+:END:
+
+#+NAME: user-processes
+#+begin_src c :main no :noweb yes :padline no :tangle no
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case QWERTY:
+            if (record->event.pressed) {
+                set_single_persistent_default_layer(_QWERTY);
+            }
+            return false;
+        case COLEMAK:
+            if (record->event.pressed) {
+                set_single_persistent_default_layer(_COLEMAK);
+            }
+            return false;
+        case LT(0, KC_NO):
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(C(KC_C));  // Intercept tap function to send Ctrl-C
+            } else if (record->event.pressed) {
+                tap_code16(C(KC_V));  // Intercept hold function to send Ctrl-V
+            }
+            return false;
+            /* case RCTL_T(KC_E): */
+            /*     /\* */
+            /*       This piece of code nullifies the effect of Right Shift when tapping */
+            /*       the RCTL_T(KC_E) key. */
+            /*       This helps rolling over RSFT_T(KC_N) and RCTL_T(KC_E) */
+            /*       to obtain the intended "en" instead of "N". */
+            /*       Consequently, capital N can only be obtained by tapping RCTL_T(KC_E) */
+            /*       and holding LSFT_T(KC_T) (which is the left Shift mod tap). */
+            /*     *\/ */
+
+            /*     /\* */
+            /*       Detect the tap. */
+            /*       We're only interested in overriding the tap behaviour */
+            /*       in a certain cicumstance. The hold behaviour can stay the same. */
+            /*     *\/ */
+            /*     if (record->event.pressed && record->tap.count > 0) { */
+            /*         // Detect right Shift */
+            /*         if (get_mods() & MOD_BIT(KC_RSHIFT)) { */
+            /*             // temporarily disable right Shift */
+            /*             // so that we can send KC_N and KC_E */
+            /*             // without Shift on. */
+            /*             unregister_mods(MOD_BIT(KC_RSHIFT)); */
+            /*             tap_code(KC_N); */
+            /*             tap_code(KC_E); */
+            /*             // restore the mod state */
+            /*             add_mods(MOD_BIT(KC_RSHIFT)); */
+            /*             // to prevent QMK from processing RCTL_T(KC_E) as usual in our special case */
+            /*             return false; */
+            /*         } */
+            /*     } */
+            /*     /\*else process RCTL_T(KC_E) as usual.*\/ */
+            /*     return true; */
+            /* case LCTL_T(KC_S): */
+            /*     /\* */
+            /*       This piece of code nullifies the effect of Left Shift when */
+            /*       tapping the LCTL_T(KC_S) key. */
+            /*       This helps rolling over LSFT_T(KC_T) and LCTL_T(KC_S) */
+            /*       to obtain the intended "st" instead of "T". */
+            /*       Consequently, capital T can only be obtained by tapping LCTL_T(KC_S) */
+            /*       and holding RSFT_T(KC_N) (which is the right Shift mod tap). */
+            /*     *\/ */
+
+            /*     if (record->event.pressed && record->tap.count > 0) { */
+            /*         if (get_mods() & MOD_BIT(KC_LSHIFT)) { */
+            /*             unregister_mods(MOD_BIT(KC_LSHIFT)); */
+            /*             tap_code(KC_T); */
+            /*             tap_code(KC_S); */
+            /*             add_mods(MOD_BIT(KC_LSHIFT)); */
+            /*             return false; */
+            /*         } */
+            /*     } */
+            /*     /\*else process LCTL_T(KC_S) as usual.*\/ */
+            /*     return true; */
+    }
+    return true;
+};
+#+end_src
+
+***** 
+:PROPERTIES:
+:CREATED:  [2022-02-17 Thu 11:09]
+:END:
 **** header
 
 Header for tangled files.
-
+[[info:org#Results of Evaluation][org#Results of Evaluation]]
 #+NAME: header
 #+BEGIN_SRC C :main no :tangle no
 -*- buffer-read-only: t -*-
@@ -640,7 +846,7 @@ Config options.  Automatically included.
 :PROPERTIES:
 :CREATED:  [2022-02-15 Tue 11:57]
 :END:
-#+BEGIN_SRC C :main no :noweb yes :padline no :tangle keymap-new.c
+#+BEGIN_SRC C :main no :noweb yes :padline no :tangle keymap.c
 // <<header>>
 
 <<license-qmk>>
@@ -652,6 +858,17 @@ Config options.  Automatically included.
 
 <<td-setup>>
 
+<<aliases-def()>>
+
+<<layer-setup>>
+
+<<td-funs>>
+
+<<tap-term-per-key>>
+
+<<tap-force-per-key>>
+
+<<user-processes>>
 #+END_SRC
 
 ** Subset Mapping
