@@ -34,7 +34,7 @@
 #define AUTO_SHIFT_NO_SETUP
 
 // Make actuation point more sensitive
-#define ACTUATION_DEPTH_ADJUSTMENT -3
+/* #define ACTUATION_DEPTH_ADJUSTMENT -3 */
 
 // Tapping this number of times holds the key until tapped once again.
 #define ONESHOT_TAP_TOGGLE 2 
