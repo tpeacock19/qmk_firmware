@@ -239,9 +239,9 @@ return results
 
 ***** Alphas
 #+NAME: util
-|   |      |      |   |   |   |   |   |   |   |
-|   | BRID | BRIU |   |   |   |   |   |   |   |
-|   |      |      |   |   |   |   |   |   |   |
+|   |      |      |       |   |   |   |   |   |   |
+|   | BRID | BRIU |       |   |   |   |   |   |   |
+|   | COPY |      | PASTE |   |   |   |   |   |   |
 
 ***** Left Modifiers 
 #+NAME: util-mods-l
@@ -832,7 +832,7 @@ Config options.  Automatically included.
 #define AUTO_SHIFT_NO_SETUP
 
 // Make actuation point more sensitive
-#define ACTUATION_DEPTH_ADJUSTMENT -3
+#define ACTUATION_DEPTH_ADJUSTMENT -1
 
 // Tapping this number of times holds the key until tapped once again.
 #define ONESHOT_TAP_TOGGLE 2 

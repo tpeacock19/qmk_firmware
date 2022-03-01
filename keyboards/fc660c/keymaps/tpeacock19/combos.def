@@ -1,6 +1,6 @@
 //   name     result    chord keys
 // COMB(AR_ESC,   KC_ESC,   KC_A, KC_R)
 COMB(TS_TAB,   KC_TAB,   LGUI_T(KC_A), LALT_T(KC_R))
-COMB(AR_ESC,   KC_ESC,   RSFT_T(KC_N), RCTL_T(KC_E))
+COMB(AR_ESC,   KC_ESC,   RSFT_T(KC_N), LGUI_T(KC_A))
 // COMB(BSSL_CLR, KC_NO,    KC_BSPC, KC_LSFT) // using KC_NO as the resulting keycode is the same as COMBO_ACTION before.
 // SUBS(TH_THE,   "the",    KC_T, KC_H) // SUBS uses SEND_STRING to output the given string.
