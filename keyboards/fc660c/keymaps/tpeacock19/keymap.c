@@ -17,6 +17,7 @@
 
 #include QMK_KEYBOARD_H
 #include "g/keymap_combo.h"
+#include "features/achordion.h"
 
 enum tpeacock19_layers { _COLEMAK, _QWERTY, _FNM, _NUM, _MDIA, _UTIL };
 
@@ -38,6 +39,29 @@ td_state_t cur_dance(qk_tap_dance_state_t *state);
 // Functions associated with individual tap dances
 void ql_finished(qk_tap_dance_state_t *state, void *user_data);
 void ql_reset(qk_tap_dance_state_t *state, void *user_data);
+void safe_reset(qk_tap_dance_state_t *state, void *user_data);
+
+// START-MUGUR-REGION
+
+/* Macros */
+
+
+/* Tap Dances */
+
+// Associate our tap dance key with its functionality
+qk_tap_dance_action_t tap_dance_actions[] = {
+    [QUOT_LAYR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, ql_finished, ql_reset),
+    [TD_SPC]    = ACTION_TAP_DANCE_DOUBLE(KC_SPC, KC_ENT),
+    [TD_RESET]  = ACTION_TAP_DANCE_FN(safe_reset)
+};
+
+/* Leader Keys */
+
+
+/* Combos */
+
+
+/* Layer Codes and Matrix */
 
 #define ASTRSK KC_KP_ASTERISK
 #define C_ESC CTL_T(KC_ESC)
@@ -112,6 +136,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                       )
 };
 
+/* Per Key Tapping Terms */
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LT(5, KC_K):
+            return TAPPING_TERM + 150;
+        case LT(4, KC_N):
+            return TAPPING_TERM + 150;
+        case LT(4, KC_V):
+            return TAPPING_TERM + 150;
+        case TD(QUOT_LAYR):
+            return TAPPING_TERM;
+        default:
+            return TAPPING_TERM;
+    }
+};
+
 // Determine the current tap dance state
 td_state_t cur_dance(qk_tap_dance_state_t *state) {
     if (state->count == 1) {
@@ -160,23 +200,13 @@ void ql_reset(qk_tap_dance_state_t *state, void *user_data) {
     ql_tap_state.state = TD_NONE;
 };
 
-// Associate our tap dance key with its functionality
-qk_tap_dance_action_t tap_dance_actions[] = {[QUOT_LAYR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, ql_finished, ql_reset), [TD_SPC] = ACTION_TAP_DANCE_DOUBLE(KC_SPC, KC_ENT)};
-
-uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case LT(5, KC_K):
-            return TAPPING_TERM + 150;
-        case LT(4, KC_V):
-            return TAPPING_TERM + 150;
-        case TD(QUOT_LAYR):
-            return TAPPING_TERM + 150;
-        case GUI_T(KC_SPC):
-            return TAPPING_TERM + 1250;
-        default:
-            return TAPPING_TERM;
+void safe_reset(qk_tap_dance_state_t *state, void *user_data) {
+    if (state->count >= 3) {
+        // Reset the keyboard if you tap the key more than three times
+        reset_keyboard();
+        reset_tap_dance(state);
     }
-};
+}
 
 bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
@@ -191,6 +221,9 @@ bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (!process_achordion(keycode, record)) {
+        return false;
+    }
     switch (keycode) {
         case QWERTY:
             if (record->event.pressed) {
@@ -204,64 +237,35 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case LT(0, KC_NO):
             if (record->tap.count && record->event.pressed) {
-                tap_code16(C(KC_C));  // Intercept tap function to send Ctrl-C
+                tap_code16(C(KC_C)); // Intercept tap function to send Ctrl-C
             } else if (record->event.pressed) {
-                tap_code16(C(KC_V));  // Intercept hold function to send Ctrl-V
+                tap_code16(C(KC_V)); // Intercept hold function to send Ctrl-V
             }
             return false;
-            /* case RCTL_T(KC_E): */
-            /*     /\* */
-            /*       This piece of code nullifies the effect of Right Shift when tapping */
-            /*       the RCTL_T(KC_E) key. */
-            /*       This helps rolling over RSFT_T(KC_N) and RCTL_T(KC_E) */
-            /*       to obtain the intended "en" instead of "N". */
-            /*       Consequently, capital N can only be obtained by tapping RCTL_T(KC_E) */
-            /*       and holding LSFT_T(KC_T) (which is the left Shift mod tap). */
-            /*     *\/ */
-
-            /*     /\* */
-            /*       Detect the tap. */
-            /*       We're only interested in overriding the tap behaviour */
-            /*       in a certain cicumstance. The hold behaviour can stay the same. */
-            /*     *\/ */
-            /*     if (record->event.pressed && record->tap.count > 0) { */
-            /*         // Detect right Shift */
-            /*         if (get_mods() & MOD_BIT(KC_RSHIFT)) { */
-            /*             // temporarily disable right Shift */
-            /*             // so that we can send KC_N and KC_E */
-            /*             // without Shift on. */
-            /*             unregister_mods(MOD_BIT(KC_RSHIFT)); */
-            /*             tap_code(KC_N); */
-            /*             tap_code(KC_E); */
-            /*             // restore the mod state */
-            /*             add_mods(MOD_BIT(KC_RSHIFT)); */
-            /*             // to prevent QMK from processing RCTL_T(KC_E) as usual in our special case */
-            /*             return false; */
-            /*         } */
-            /*     } */
-            /*     /\*else process RCTL_T(KC_E) as usual.*\/ */
-            /*     return true; */
-            /* case LCTL_T(KC_S): */
-            /*     /\* */
-            /*       This piece of code nullifies the effect of Left Shift when */
-            /*       tapping the LCTL_T(KC_S) key. */
-            /*       This helps rolling over LSFT_T(KC_T) and LCTL_T(KC_S) */
-            /*       to obtain the intended "st" instead of "T". */
-            /*       Consequently, capital T can only be obtained by tapping LCTL_T(KC_S) */
-            /*       and holding RSFT_T(KC_N) (which is the right Shift mod tap). */
-            /*     *\/ */
-
-            /*     if (record->event.pressed && record->tap.count > 0) { */
-            /*         if (get_mods() & MOD_BIT(KC_LSHIFT)) { */
-            /*             unregister_mods(MOD_BIT(KC_LSHIFT)); */
-            /*             tap_code(KC_T); */
-            /*             tap_code(KC_S); */
-            /*             add_mods(MOD_BIT(KC_LSHIFT)); */
-            /*             return false; */
-            /*         } */
-            /*     } */
-            /*     /\*else process LCTL_T(KC_S) as usual.*\/ */
-            /*     return true; */
     }
     return true;
 };
+
+static bool fc660c_left_hand(keypos_t pos) {
+    if (pos.col == 5) return false;
+    switch (pos.row) {
+        case 3:
+            return pos.col < 8;
+        case 2:
+            return pos.col < 4;
+        default:
+            return pos.col < 7;
+    }
+}
+
+bool fc660c_achordion_opposite_hands(const keyrecord_t *tap_hold_record, const keyrecord_t *other_record) {
+    return fc660c_left_hand(tap_hold_record->event.key) != fc660c_left_hand(other_record->event.key);
+}
+
+bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t *tap_hold_record, uint16_t other_keycode, keyrecord_t *other_record) {
+    return fc660c_achordion_opposite_hands(tap_hold_record, other_record);
+}
+
+void matrix_scan_user(void) {
+    achordion_task();
+}
