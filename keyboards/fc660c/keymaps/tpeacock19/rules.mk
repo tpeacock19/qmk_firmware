@@ -19,3 +19,5 @@ VPATH += keyboards/gboards
 # Space saving
 LTO_ENABLE = yes
 MUSIC_ENABLE = no
+
+SRC += features/achordion.c

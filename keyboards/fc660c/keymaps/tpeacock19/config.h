@@ -19,9 +19,10 @@
 
 // default but used in macros
 #undef TAPPING_TERM
-#define TAPPING_TERM 230
+#define TAPPING_TERM 200
 #define TAPPING_TERM_PER_KEY
 
+#define PERMISSIVE_HOLD
 // Prevent normal rollover on alphas from accidentally triggering mods.
 #define IGNORE_MOD_TAP_INTERRUPT
 
@@ -34,11 +35,11 @@
 #define AUTO_SHIFT_NO_SETUP
 
 // Make actuation point more sensitive
-/* #define ACTUATION_DEPTH_ADJUSTMENT -3 */
+#define ACTUATION_DEPTH_ADJUSTMENT -1
 
 // Tapping this number of times holds the key until tapped once again.
-#define ONESHOT_TAP_TOGGLE 2 
+#define ONESHOT_TAP_TOGGLE 2
 // Time (in ms) before the one shot code is released
-#define ONESHOT_TIMEOUT 5000 
+#define ONESHOT_TIMEOUT 5000
 
 #define NO_MUSIC_MODE

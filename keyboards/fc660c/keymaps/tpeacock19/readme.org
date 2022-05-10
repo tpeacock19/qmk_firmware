@@ -99,7 +99,7 @@ return results
 | MLSFT |
 
 ***** Right Modifiers
-#+NAME: mods-r
+#+name: mods-r
 | [       | ]   | \   | DEL |
 | QUOT_TD | ENT | xxx | xxx |
 | MRSFT   | UP  | xxx | xxx |
@@ -276,7 +276,6 @@ The layout is maintained in emacs org-mode tables and converted to QMK keymap
 data structures using embedded python scripts.
 
 *** Table Conversion Scripts
-
 **** table-layout
 
 Produce base layer from separate tap and hold tables.
@@ -401,21 +400,38 @@ return results
 
 Produce layer enums from layer names in hold table.
 
+#+BEGIN_SRC python :results silent :session pysession
+def foo:
+    in range(1):
+        pass
+    return 1
+
+
+print(foo())
+#+END_SRC
+
 #+NAME: table-enums
 #+BEGIN_SRC python :var layer_table=layers :var mods_table=mods :tangle no :results silent
 mods_dict = dict.fromkeys(mods_table[0])
-layers = [ ]
-keycodes = [ ]
+layers = []
+keycodes = []
 for layer_row in layer_table:
-  for hold in layer_row:
-    if hold not in mods_dict and isinstance(hold, str) and hold != '' and hold != 'U_NP' and hold != 'RESET' and hold not in layers:
-      layers.append(hold)
-      if hold == "_COLEMAK":
-          hold = "_COLEMAK = SAFE_RANGE"
-      keycodes.append(hold[1:])
-results = 'enum tpeacock19_layers { ' + ', '.join(layers) + ' };'
-results = results.rstrip(' ') + '\n\n'
-results += 'enum tpeacock19_keycodes { ' + ', '.join(keycodes) + ' };'
+    for hold in layer_row:
+        if (
+            hold not in mods_dict
+            and isinstance(hold, str)
+            and hold != ""
+            and hold != "U_NP"
+            and hold != "RESET"
+            and hold not in layers
+        ):
+            layers.append(hold)
+            if hold == "_COLEMAK":
+                hold = "_COLEMAK = SAFE_RANGE"
+            keycodes.append(hold[1:])
+results = "enum tpeacock19_layers { " + ", ".join(layers) + " };"
+results = results.rstrip(" ") + "\n\n"
+results += "enum tpeacock19_keycodes { " + ", ".join(keycodes) + " };"
 return results
 #+END_SRC
 
@@ -432,9 +448,7 @@ return sys.version
 #+RESULTS: python-version
 : 3.10.2 (main, Jan 15 2022, 19:56:27) [GCC 11.1.0]
 
-
 *** Data
-
 **** symbol-names
 
 Symbol, name, and shifted symbol mappings for use in tables.
@@ -479,7 +493,6 @@ versions.
 #+NAME: osmods
 | OL^ | MLCTL | MLALT | MLGUI | OR^ | MRCTL | MRGUI | LCAC |
 
-
 **** nonkc
 
 Keycodes that match any of these prefixes will not have ~KC_~ automatically
@@ -487,7 +500,6 @@ prepended.
 
 #+NAME: nonkc
 | U_ | RGB_ | DEBUG | RESET | S( | C( | SCMD( | LCMD( | OSM( | TD( | QWERTY | COLEMAK | KC_NO | KC_TRNS | _______ | DT_ |
-
 
 **** Tap Dance
 :PROPERTIES:
@@ -528,6 +540,29 @@ td_state_t cur_dance(qk_tap_dance_state_t *state);
 // Functions associated with individual tap dances
 void ql_finished(qk_tap_dance_state_t *state, void *user_data);
 void ql_reset(qk_tap_dance_state_t *state, void *user_data);
+void safe_reset(qk_tap_dance_state_t *state, void *user_data);
+
+// START-MUGUR-REGION
+
+/* Macros */
+
+
+/* Tap Dances */
+
+// Associate our tap dance key with its functionality
+qk_tap_dance_action_t tap_dance_actions[] = {
+    [QUOT_LAYR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, ql_finished, ql_reset),
+    [TD_SPC]    = ACTION_TAP_DANCE_DOUBLE(KC_SPC, KC_ENT),
+    [TD_RESET]  = ACTION_TAP_DANCE_FN(safe_reset)
+};
+
+/* Leader Keys */
+
+
+/* Combos */
+
+
+/* Layer Codes and Matrix */
 #+end_src
 
 #+NAME: td-funs
@@ -580,8 +615,13 @@ void ql_reset(qk_tap_dance_state_t *state, void *user_data) {
     ql_tap_state.state = TD_NONE;
 };
 
-// Associate our tap dance key with its functionality
-qk_tap_dance_action_t tap_dance_actions[] = {[QUOT_LAYR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, ql_finished, ql_reset), [TD_SPC] = ACTION_TAP_DANCE_DOUBLE(KC_SPC, KC_ENT)};
+void safe_reset(qk_tap_dance_state_t *state, void *user_data) {
+    if (state->count >= 3) {
+        // Reset the keyboard if you tap the key more than three times
+        reset_keyboard();
+        reset_tap_dance(state);
+    }
+}
 #+end_src
 
 **** Layers
@@ -623,16 +663,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #+NAME: tap-term-per-key
 #+begin_src c :main no :noweb yes :padline no :tangle no
+/* Per Key Tapping Terms */
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LT(5, KC_K):
             return TAPPING_TERM + 150;
+        case LT(4, KC_N):
+            return TAPPING_TERM + 150;
         case LT(4, KC_V):
             return TAPPING_TERM + 150;
         case TD(QUOT_LAYR):
-            return TAPPING_TERM + 150;
-        case GUI_T(KC_SPC):
-            return TAPPING_TERM + 1250;
+            return TAPPING_TERM;
         default:
             return TAPPING_TERM;
     }
@@ -663,6 +704,9 @@ bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
 #+NAME: user-processes
 #+begin_src c :main no :noweb yes :padline no :tangle no
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (!process_achordion(keycode, record)) {
+        return false;
+    }
     switch (keycode) {
         case QWERTY:
             if (record->event.pressed) {
@@ -676,73 +720,53 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case LT(0, KC_NO):
             if (record->tap.count && record->event.pressed) {
-                tap_code16(C(KC_C));  // Intercept tap function to send Ctrl-C
+                tap_code16(C(KC_C)); // Intercept tap function to send Ctrl-C
             } else if (record->event.pressed) {
-                tap_code16(C(KC_V));  // Intercept hold function to send Ctrl-V
+                tap_code16(C(KC_V)); // Intercept hold function to send Ctrl-V
             }
             return false;
-            /* case RCTL_T(KC_E): */
-            /*     /\* */
-            /*       This piece of code nullifies the effect of Right Shift when tapping */
-            /*       the RCTL_T(KC_E) key. */
-            /*       This helps rolling over RSFT_T(KC_N) and RCTL_T(KC_E) */
-            /*       to obtain the intended "en" instead of "N". */
-            /*       Consequently, capital N can only be obtained by tapping RCTL_T(KC_E) */
-            /*       and holding LSFT_T(KC_T) (which is the left Shift mod tap). */
-            /*     *\/ */
-
-            /*     /\* */
-            /*       Detect the tap. */
-            /*       We're only interested in overriding the tap behaviour */
-            /*       in a certain cicumstance. The hold behaviour can stay the same. */
-            /*     *\/ */
-            /*     if (record->event.pressed && record->tap.count > 0) { */
-            /*         // Detect right Shift */
-            /*         if (get_mods() & MOD_BIT(KC_RSHIFT)) { */
-            /*             // temporarily disable right Shift */
-            /*             // so that we can send KC_N and KC_E */
-            /*             // without Shift on. */
-            /*             unregister_mods(MOD_BIT(KC_RSHIFT)); */
-            /*             tap_code(KC_N); */
-            /*             tap_code(KC_E); */
-            /*             // restore the mod state */
-            /*             add_mods(MOD_BIT(KC_RSHIFT)); */
-            /*             // to prevent QMK from processing RCTL_T(KC_E) as usual in our special case */
-            /*             return false; */
-            /*         } */
-            /*     } */
-            /*     /\*else process RCTL_T(KC_E) as usual.*\/ */
-            /*     return true; */
-            /* case LCTL_T(KC_S): */
-            /*     /\* */
-            /*       This piece of code nullifies the effect of Left Shift when */
-            /*       tapping the LCTL_T(KC_S) key. */
-            /*       This helps rolling over LSFT_T(KC_T) and LCTL_T(KC_S) */
-            /*       to obtain the intended "st" instead of "T". */
-            /*       Consequently, capital T can only be obtained by tapping LCTL_T(KC_S) */
-            /*       and holding RSFT_T(KC_N) (which is the right Shift mod tap). */
-            /*     *\/ */
-
-            /*     if (record->event.pressed && record->tap.count > 0) { */
-            /*         if (get_mods() & MOD_BIT(KC_LSHIFT)) { */
-            /*             unregister_mods(MOD_BIT(KC_LSHIFT)); */
-            /*             tap_code(KC_T); */
-            /*             tap_code(KC_S); */
-            /*             add_mods(MOD_BIT(KC_LSHIFT)); */
-            /*             return false; */
-            /*         } */
-            /*     } */
-            /*     /\*else process LCTL_T(KC_S) as usual.*\/ */
-            /*     return true; */
     }
     return true;
 };
 #+end_src
 
-***** 
+**** Matrix Scan User
 :PROPERTIES:
 :CREATED:  [2022-02-17 Thu 11:09]
 :END:
+
+#+NAME: matrix-scan-user
+#+begin_src c :main no :noweb yes :padline no :tangle no
+static bool fc660c_left_hand(keypos_t pos) {
+    if (pos.col == 5) return false;
+    switch (pos.row) {
+        case 3:
+            return pos.col < 8;
+        case 2:
+            return pos.col < 4;
+        default:
+            return pos.col < 7;
+    }
+}
+
+bool fc660c_achordion_opposite_hands(const keyrecord_t *tap_hold_record, const keyrecord_t *other_record) {
+    return fc660c_left_hand(tap_hold_record->event.key) != fc660c_left_hand(other_record->event.key);
+}
+
+bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t *tap_hold_record, uint16_t other_keycode, keyrecord_t *other_record) {
+    return fc660c_achordion_opposite_hands(tap_hold_record, other_record);
+}
+
+void matrix_scan_user(void) {
+    achordion_task();
+}
+#+end_src
+
+#+NAME: achordion-rules
+#+begin_src makefile :main no :tangle no
+SRC += features/achordion.c
+#+end_src
+
 **** header
 
 Header for tangled files.
@@ -752,7 +776,6 @@ Header for tangled files.
 -*- buffer-read-only: t -*-
 Copyright 2022 Trey Peacock
 #+END_SRC
-
 
 **** license-qmk
 
@@ -774,7 +797,6 @@ License for tangled QMK C source files.
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #+END_SRC
-
 
 *** [[file:rules.mk][keyboards/fc660c/keymaps/tpeacock19/rules.mk]]
 
@@ -801,8 +823,9 @@ VPATH += keyboards/gboards
 # Space saving
 LTO_ENABLE = yes
 MUSIC_ENABLE = no
-#+END_SRC
 
+<<achordion-rules>>
+#+END_SRC
 
 *** [[file:config.h][keyboards/fc660c/keymaps/tpeacock19/config.h]]
 
@@ -817,9 +840,10 @@ Config options.  Automatically included.
 
 // default but used in macros
 #undef TAPPING_TERM
-#define TAPPING_TERM 230
+#define TAPPING_TERM 200
 #define TAPPING_TERM_PER_KEY
 
+#define PERMISSIVE_HOLD
 // Prevent normal rollover on alphas from accidentally triggering mods.
 #define IGNORE_MOD_TAP_INTERRUPT
 
@@ -835,14 +859,14 @@ Config options.  Automatically included.
 #define ACTUATION_DEPTH_ADJUSTMENT -1
 
 // Tapping this number of times holds the key until tapped once again.
-#define ONESHOT_TAP_TOGGLE 2 
+#define ONESHOT_TAP_TOGGLE 2
 // Time (in ms) before the one shot code is released
-#define ONESHOT_TIMEOUT 5000 
+#define ONESHOT_TIMEOUT 5000
 
 #define NO_MUSIC_MODE
 #+END_SRC
 
-*** [[file:keymap-new.c][keyboards/fc660c/keymaps/tpeacock19/keymap-new.c]] 
+*** [[file:keymap-new.c][keyboards/fc660c/keymaps/tpeacock19/keymap.c]] 
 :PROPERTIES:
 :CREATED:  [2022-02-15 Tue 11:57]
 :END:
@@ -853,6 +877,7 @@ Config options.  Automatically included.
 
 #include QMK_KEYBOARD_H
 #include "g/keymap_combo.h"
+#include "features/achordion.h"
 
 <<table-enums()>>
 
@@ -862,13 +887,15 @@ Config options.  Automatically included.
 
 <<layer-setup>>
 
-<<td-funs>>
-
 <<tap-term-per-key>>
+
+<<td-funs>>
 
 <<tap-force-per-key>>
 
 <<user-processes>>
+
+<<matrix-scan-user>>
 #+END_SRC
 
 ** Subset Mapping
