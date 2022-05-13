@@ -69,6 +69,8 @@
                                 (u_n (LT _util n))
                                 (mlsft (OSM S))
                                 (mrsft (OSM S))
+                                (b_b (RAW "KC_WFWD"))
+                                (b_f (RAW "KC_WBAK"))
                                 (tap_pr (RAW "DT_PRNT"))
                                 (tap_up (RAW "DT_UP"))
                                 (tap_dn (RAW "DT_DOWN"))
@@ -108,7 +110,7 @@
       )
      ("_fnm"
       grv    f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12    ---           ---
-      ---    ---    ---    ---    ---    ---    ---    ---    pscr   slck   ---    ---    ---    f20           ---
+      b_b    b_f    ---    ---    ---    ---    ---    ---    pscr   slck   ---    ---    ---    f20           ---
       ---    ---    ---    qwty   clmk   ---    ---    ---    home   pgup   ---    ---           ---
       ---    ---    copy   ---    paste  ---    ---    ---    end    pgdn   ---                  btn1   ms_u
       debug  td_r   ---                         ---                         ---    ---    ---    ms_l   ms_d   ms_r
