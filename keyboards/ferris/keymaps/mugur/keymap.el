@@ -33,7 +33,9 @@
 ;;; Code:
 
 (setq mugur-qmk-path "~/qmk_firmware")
-(setq mugur-combo-keys nil)
+(setq mugur-combo-keys '(((a n) esc)
+                         ((a M_r) tab)
+                         ((c d) ent)))
 (setq mugur-tapping-term-keys '(
                                 ;; (G_a 100)
                                 ;; (M_r 50)
@@ -47,32 +49,53 @@
                                 ;; (u_n 150)
                                 ;; (m_v 150)
                                 ))
-(setq mugur-user-defined-keys '((to_1 (TG "l1"))
-                                (to_2 (TG "l2"))
-                                (to_3 (TG "l3"))
-                                (to_4 (TG "l4"))
-                                (C_esc (C e))
-                                (G_s (G s))
-                                (M_t (M t))
-                                (M_n (M n))
-                                (G_e (G e))
-                                (S_vu (S volu))
+(setq mugur-user-defined-keys '((to_1 (TO "l1"))
+                                (to_2 (TO "l2"))
+                                (to_3 (TO "l3"))
+                                (to_4 (TO "l4"))
+                                (to_5 (TO "l5"))
+                                (M_r (M r))
+                                (C_s (C s))
+                                (G_t (G t))
+                                (G_n (G n))
+                                (C_e (C e))
+                                (M_i (M i))
+                                (G_\' (G ?\'))
+                                (G_\+ (G ?\+))
+                                (S_\\ (S ?\\))
+                                (M_vu (M volu))
+                                (M_mute (M mute))
                                 (G_vd (G vold))
                                 (G_S (G lsft))
                                 (M_up (M up))
                                 (G_dn (M down))
                                 (n_tab C-tab)
                                 (p_tab C-S-tab)
-                                (spcG (G spc))
                                 (mlsft (OSM S))
                                 (mrsft (OSM S))
+                                (malt (OSM M))
                                 (mrctl (OSM C))
-                                (tap_pr (RAW "DT_PRNT"))
-                                (tap_up (RAW "DT_UP"))
-                                (tap_dn (RAW "DT_DOWN"))
-                                (asrp (RAW "KC_ASRP"))
-                                (asup (RAW "KC_ASUP"))
-                                (asdn (RAW "KC_ASDN"))
+                                (mgui (OSM G))
+                                (CMspc (C M spc))
+                                (Gto1 (DANCE-FN nil
+                                                (RAW "layer1_gui_finished")
+                                                (RAW "layer1_gui_reset")))
+                                (Gto2 (DANCE-FN nil
+                                                (RAW "layer2_gui_finished")
+                                                (RAW "layer2_gui_reset")))
+                                (CMsft (C M lsft))
+                                (Gspc (DANCE-FN nil
+                                                (RAW "spc_gui_finished")
+                                                (RAW "spc_gui_reset")))
+                                (co_mi (DANCE-FN nil
+                                                 (RAW "comma_minus_finished")
+                                                 (RAW "comma_minus_reset")))
+                                (dot_ex (DANCE-FN nil
+                                                  (RAW "dot_exclaim_finished")
+                                                  (RAW "dot_exclaim_reset")))
+                                (sl_pn (DANCE-FN nil
+                                                 (RAW "slsh_paren_finished")
+                                                 (RAW "slsh_paren_reset")))
                                 (qt_td (DANCE-FN nil
                                                  (RAW "ql_finished")
                                                  (RAW "ql_reset")))
@@ -86,29 +109,31 @@
       (mugur-leader-timeout 200)
       (mugur-leader-per-key-timing nil))
   (mugur-mugur
-   '(
-     ("l1"
+   '(("l1"
       q      w      f      p      b             j      l      u      y      bspc
-      a      r      G_s    M_t    g             m      M_n    G_e    i      o
-      x      c      d      v      z             k      h      ?\,    ?\.    ?\/
-      to_2   mlsft                                                   mrctl  spcG
-      )
+      a      M_r    C_s    t      g             m      n      C_e    M_i    o
+      z      x      c      d      v             k      h      co_mi  dot_ex sl_pn
+      CMspc  mgui                                                    Gto2   mlsft)
      ("l2"
-      gesc   ?\@    ?\#    ?\$    ?\%           ?\^    ?\&    ?\*    ?\;    bspc
-      tab    ?\=    ?\]    ?\}    ?\'           ?\\    ?\{    ?\}    ?\|    ent
-      ?\~    -x-    -x-    -x-    ?\"           ?\[    ?\(    ?\)    ?\]    to_4
-      to_3   lalt                                                    ralt   to_1)
+      gesc   ?\@    ?\#    ?\$    ?\%           ?\^    ?\&    ?\*    ?\=    ---
+      tab    ?\"    ?\[    ?\(    ?\_           ?\-    ?\)    ?\]    ?\'    ent
+      ?\`    ?\|    ?\{    ?\:    ?\<           ?\>    ?\;    ?\}    ?\\    to_4
+      ---    Gto1                                                    to_3   malt)
      ("l3"
-      ---    mply   mprv   mnxt   ?\_           ?\-    7      8      9      ---
-      G_S    mute   G vd   G vu   ?\+           ?\=    4      5      6      ---
-      td_r   past   brid   briu   ?\.           0      1      2      3      ---
-      to_4   lgui                                                    ---    to_1)
+      gesc   mply   mprv   mnxt   ?\_           ?\-    7      8      9      ---
+      tab    M_mute vold   volu   ?\+           ?\=    4      5      6      ent
+      td_r   past   brid   briu   ?\.           0      1      2      3      mlsft
+      ---    Gto1                                                    to_4   malt)
      ("l4"
-      q      wh_l   ms_u   wh_r   t             wbak   p_tab  n_tab  wfwd   ---
-      a      ms_l   ms_d   ms_r   g             left   G_dn   M_up   right  ---
-      z      btn2   wh_u   wh_d   ---           btn1   acl0   acl1   acl2   -x-
-      to_2   ---                                                     ---    to_1)
-     )))
+      esc    wh_l   ms_u   wh_r   -x-           wbak   p_tab  n_tab  wfwd   ---
+      tab    ms_l   ms_d   ms_r   -x-           left   G_dn   M_up   right  ent
+      -x-    btn2   wh_u   wh_d   -x-           btn1   acl0   acl1   acl2   -x-
+      ---    to_1                                                    to_5    ---)
+     ("l5"
+      f1     f2     f3     f4     f5            f6     f7     f8     f9     f10
+      -x-    -x-    -x-    -x-    f11           f12    -x-    -x-    -x-    -x-
+      -x-    -x-    -x-    -x-    -x-           -x-    -x-    -x-    -x-    -x-
+      ---    to_1                                                    to_2    ---))))
 
 (provide 'keymap)
 ;;; keymap.el
