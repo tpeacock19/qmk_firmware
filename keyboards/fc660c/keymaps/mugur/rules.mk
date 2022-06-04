@@ -14,9 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-BOOTMAGIC_ENABLE = yes  # Enable Bootmagic Lite
-CONSOLE_ENABLE   = no     # Disable Console for debug
-NKRO_ENABLE      = no        # Disable N-Key Rollover
+USER_NAME := tpeacock19
 
 # START-MUGUR-REGION
 
@@ -31,14 +29,27 @@ COMBO_ENABLE     = no
 # Optimize size but this may cause error "relocation truncated to fit"
 EXTRALDFLAGS     = -Wl,--relax
 
+BOOTMAGIC_ENABLE   = yes	# Enable Bootmagic Lite
+LTO_ENABLE         = yes	# link time optimization to shrink size
+MOUSEKEY_ENABLE    = yes	# Emulate mouse using keyboard
+EXTRAKEY_ENABLE    = yes	# Audio and System control
+CONSOLE_ENABLE     = no		# Disable Console for debug
+COMMAND_ENABLE     = no		# Deprecated magic commands
+MAGIC_ENABLE       = no		# Magic commands after init
+SPACE_CADET_ENABLE = no		# Space Cadet Features
+# NKRO_ENABLE        = no		# Disable N-Key Rollover
+AUDIO_ENABLE       = no		# Audio direct from keyboard to speaker
+MUSIC_ENABLE       = no		# Maps columns/rows to chromatic/octaves
+RGBLIGHT_ENABLE    = no		# RGB LED controls
+RGB_MATRIX_ENABLE  = no		# RGB Matrix lighting
+OLED_ENABLE        = no		# Oled capability
+
 AUTO_SHIFT_ENABLE = yes
+GRAVE_ESC_ENABLE = yes
+COMBO_ENABLE       = yes	#
+
 DYNAMIC_TAPPING_TERM_ENABLE = yes
 
-COMBO_ENABLE     = yes 
 VPATH += keyboards/gboards
-
-# Space saving
-LTO_ENABLE = yes
-MUSIC_ENABLE = no
 
 SRC += features/achordion.c
