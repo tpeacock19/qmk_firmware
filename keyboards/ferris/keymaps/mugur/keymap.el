@@ -34,6 +34,10 @@
 
 (setq mugur-qmk-path "~/qmk_firmware")
 (setq mugur-combo-keys '(((a n) esc)
+                         ((t mgui) esc)
+                         ((n (RAW "TD(DANCE_4)")) ent)
+                         ((M_i (RAW "TD(DANCE_4)")) n_tab)
+                         ((m (RAW "TD(DANCE_4)")) p_tab)
                          ((a M_r) tab)
                          ((c d) ent)))
 (setq mugur-tapping-term-keys '(
@@ -63,6 +67,9 @@
                                 (G_\' (G ?\'))
                                 (G_\+ (G ?\+))
                                 (S_\\ (S ?\\))
+                                (C_lbr (C ?\[))
+                                (C_rbr (C ?\]))
+                                (M_ap (M ?\'))
                                 (M_vu (M volu))
                                 (M_mute (M mute))
                                 (G_vd (G vold))
@@ -87,6 +94,9 @@
                                 (Gspc (DANCE-FN nil
                                                 (RAW "spc_gui_finished")
                                                 (RAW "spc_gui_reset")))
+                                (M_qt (DANCE-FN nil
+                                                (RAW "meta_dquote_finished")
+                                                (RAW "meta_dquote_reset")))
                                 (co_mi (DANCE-FN nil
                                                  (RAW "comma_minus_finished")
                                                  (RAW "comma_minus_reset")))
@@ -100,7 +110,6 @@
                                                  (RAW "ql_finished")
                                                  (RAW "ql_reset")))
                                 (td_r (DANCE-FN (RAW "safe_reset")))))
-
 (let ((mugur-keyboard-name "ferris")
       (mugur-layout-name "LAYOUT")
       (mugur-keymap-name "mugur")
@@ -116,14 +125,14 @@
       CMspc  mgui                                                    Gto2   mlsft)
      ("l2"
       gesc   ?\@    ?\#    ?\$    ?\%           ?\^    ?\&    ?\*    ?\=    ---
-      tab    ?\"    ?\[    ?\(    ?\_           ?\-    ?\)    ?\]    ?\'    ent
+      tab    M_qt   C_lbr  ?\(    ?\_           ?\-    ?\)    C_rbr  M_ap   ent
       ?\`    ?\|    ?\{    ?\:    ?\<           ?\>    ?\;    ?\}    ?\\    to_4
       ---    Gto1                                                    to_3   malt)
      ("l3"
       gesc   mply   mprv   mnxt   ?\_           ?\-    7      8      9      ---
       tab    M_mute vold   volu   ?\+           ?\=    4      5      6      ent
-      td_r   past   brid   briu   ?\.           0      1      2      3      mlsft
-      ---    Gto1                                                    to_4   malt)
+      td_r   past   brid   briu   malt          ?\.    1      2      3      ?\/
+      ---    Gto1                                                    to_4   0)
      ("l4"
       esc    wh_l   ms_u   wh_r   -x-           wbak   p_tab  n_tab  wfwd   ---
       tab    ms_l   ms_d   ms_r   -x-           left   G_dn   M_up   right  ent
