@@ -17,6 +17,7 @@
 
 #pragma once
 
+#undef COMBO_COUNT
 // START-MUGUR-REGION
 
 #undef TAPPING_TERM
@@ -25,11 +26,14 @@
 #define COMBO_TERM 50
 #define LEADER_TIMEOUT 200
 #undef LEADER_PER_KEY_TIMING
-
+#define COMBO_COUNT 2
 #define FORCE_NKRO
-#undef RGBLIGHT_ANIMATIONS 
+#undef RGBLIGHT_ANIMATIONS
 
 // END-MUGUR-REGION
+
+// Make actuation point more sensitive
+/* #define ACTUATION_DEPTH_ADJUSTMENT -1 */
 
 #define PERMISSIVE_HOLD
 // Prevent normal rollover on alphas from accidentally triggering mods.
@@ -44,7 +48,7 @@
 #define AUTO_SHIFT_NO_SETUP
 
 // Make actuation point more sensitive
-#define ACTUATION_DEPTH_ADJUSTMENT -1
+#define ACTUATION_DEPTH_ADJUSTMENT -3
 
 // Tapping this number of times holds the key until tapped once again.
 #define ONESHOT_TAP_TOGGLE 2

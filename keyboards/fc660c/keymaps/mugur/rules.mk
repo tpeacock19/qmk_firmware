@@ -14,17 +14,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-USER_NAME := tpeacock19
+# USER_NAME := tpeacock19
 
-# START-MUGUR-REGION
+ # START-MUGUR-REGION
 
-FORCE_NKRO       = yes
+ FORCE_NKRO       = yes
 LEADER_ENABLE    = no
 RGBLIGHT_ENABLE  = no
 TAP_DANCE_ENABLE = yes
-COMBO_ENABLE     = no 
+COMBO_ENABLE     = yes 
 
-# END-MUGUR-REGION   
+# END-MUGUR-REGION      
 
 # Optimize size but this may cause error "relocation truncated to fit"
 EXTRALDFLAGS     = -Wl,--relax

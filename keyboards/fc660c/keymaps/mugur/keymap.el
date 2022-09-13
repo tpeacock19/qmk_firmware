@@ -33,9 +33,9 @@
 ;;; Code:
 
 (setq mugur-qmk-path "~/qmk_firmware")
-;; (setq mugur-combo-keys '(((a r) tab)
-;;                          ((n e) esc)))
-(setq mugur-combo-keys nil)
+(setq mugur-combo-keys '(((G_a M_r) tab)
+                         ((G_a S_n) esc)))
+;; (setq mugur-combo-keys nil)
 
 (setq mugur-tapping-term-keys '(
                                 ;; (G_a 100)
