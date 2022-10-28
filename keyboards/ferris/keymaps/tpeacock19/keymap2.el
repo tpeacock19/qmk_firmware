@@ -230,11 +230,11 @@
       (mugur-leader-timeout 200)
       (mugur-leader-per-key-timing nil))
   (mugur-mugur
-   '(( "l1"
-       q      w      f      p      b             j      l      u      y      rpt
-       a      r      s      t      g             m      n      e      i      o
-       z      x      c      d      v             k      h      co_pn  dot_mi sl_ex
-       os3    mlsft                                                   spc    os2)
+   '(("l1"
+      q      w      f      p      b             j      l      u      y      rpt
+      a      r      s      t      g             m      n      e      i      o
+      z      x      c      d      v             k      h      co_pn  dot_mi sl_ex
+      os3    mlsft                                                   spc    os2)
      ("l2"
       ?\\    ?\`    ?\#    ?\:    ?\;           ?\=    7      8      9      ?\+
       esc    ?\'    ?\{    ?\(    ?\[           ?\*    4      5      6      ?\-
@@ -247,7 +247,7 @@
       to1    tab                                                     ent    to_4)
      ("l4"
       -x-    wh_d   ms_u   -x-    brid          briu   -x-    -x-    wh_u   -x-
-      esc    ms_l   ms_d   ms_r   -x-           left   mprv   mply   mnxt   mute
+      esc    ms_l   ms_d   ms_r   -x-           -x-    mprv   mply   mnxt   mute
       -x-    wh_l   -x-    -x-    vold          volu   btn1   btn2   wh_r   f20
       to_1   ---                                                     ent    to_5)
      ("l5"
